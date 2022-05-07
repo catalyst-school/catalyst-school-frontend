@@ -1,0 +1,27 @@
+name: Build on PR
+on:
+    pull_request:
+        type: [opened]
+
+jobs:
+    build:
+        name: Build on PR
+
+        runs-on: ubuntu-latest
+
+        steps:
+            - uses: actions/checkout@v1
+
+            - name: Install Node.js
+              uses: actions/setup-node@v1
+              with:
+                  node-version: 14.x
+
+            - name: Install Yarn
+              run: npm install -g yarn
+
+            - name: Yarn install
+              run: yarn
+
+            - name: Yarn build
+              run: yarn build
