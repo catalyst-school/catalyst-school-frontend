@@ -1,8 +1,5 @@
 <script setup lang="ts">
 import HelloWorld from '@/components/HelloWorld.vue';
-import { ref } from 'vue';
-
-const a = ref(1);
 </script>
 
 <template>
@@ -23,7 +20,7 @@ const a = ref(1);
 </template>
 
 <style>
-@import '@/assets/base.css';
+@import './assets/base.css';
 
 #app {
     max-width: 1280px;
