@@ -3,13 +3,16 @@ import { computed, defineProps } from 'vue';
 import TheoryContainer from './TheoryContainer.vue';
 import TaskContainer from './TaskContainer.vue';
 
-interface UnitContainerProps {
-    unit: {
-        type: string;
-    };
+interface Unit {
+    id: string;
+    type: string;
 }
 
-const props = defineProps<UnitContainerProps>();
+interface Props {
+    unit: Unit;
+}
+
+const props = defineProps<Props>();
 
 const unitContainerComponent = computed(() => {
     switch (props?.unit?.type) {

@@ -1,6 +1,7 @@
 <script setup lang="ts">
-import { NThing, NAvatar, NIcon, NEllipsis } from 'naive-ui';
-import { Book } from '@vicons/tabler';
+import { NThing, NAvatar, NIcon, NEllipsis, NButton } from 'naive-ui';
+import { Book, Trash } from '@vicons/tabler';
+import { defineProps } from 'vue';
 
 interface TheoryUnit {
     title: string;
@@ -23,6 +24,13 @@ const props = defineProps<TheoryUnit>();
         </template>
         <template #header>{{ props?.title }}</template>
         <template #description>Описание</template>
+        <template #header-extra>
+            <NButton circle size="small">
+                <template #icon>
+                    <Trash />
+                </template>
+            </NButton>
+        </template>
 
         <NEllipsis expand-trigger="click" line-clamp="2" :tooltip="false">
             {{ props?.content }}
@@ -30,11 +38,12 @@ const props = defineProps<TheoryUnit>();
     </NThing>
 </template>
 
-<style scoped>
+<style scoped lang="scss">
 .unit {
-    max-width: 320px;
+    background: white;
     padding: 16px;
-    margin-bottom: 24px;
-    border: 1px solid #efeff5ff;
+    &:last-child {
+        margin-bottom: 0;
+    }
 }
 </style>

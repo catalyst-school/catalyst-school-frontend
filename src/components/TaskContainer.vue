@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import { NThing, NAvatar, NIcon, NEllipsis } from 'naive-ui';
-import { Edit } from '@vicons/tabler';
+import { NThing, NAvatar, NIcon, NEllipsis, NButton } from 'naive-ui';
+import { Edit, Trash } from '@vicons/tabler';
 
 interface TaskUnit {
     title: string;
@@ -22,19 +22,28 @@ const props = defineProps<TaskUnit>();
             </NAvatar>
         </template>
         <template #header>{{ props?.title }}</template>
+        <template #header-extra>
+            <NButton circle size="small">
+                <template #icon>
+                    <Trash />
+                </template>
+            </NButton>
+        </template>
         <template #description>Описание</template>
 
-        <NEllipsis expand-trigger="click" line-clamp="2" :tooltip="false">
+        <NEllipsis expand-trigger="click" line-clamp="1" :tooltip="false">
             {{ props?.content }}
         </NEllipsis>
     </NThing>
 </template>
 
-<style scoped>
+<style scoped lang="scss">
 .unit {
-    max-width: 320px;
+    background: white;
     padding: 16px;
-    margin-bottom: 24px;
-    border: 1px solid #efeff5ff;
+
+    &:last-child {
+        margin-bottom: 0;
+    }
 }
 </style>
