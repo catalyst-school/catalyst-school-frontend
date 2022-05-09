@@ -1,6 +1,7 @@
 <script lang="ts" setup>
 import { computed, defineProps } from 'vue';
 import TheoryContainer from './TheoryContainer.vue';
+import TaskContainer from './TaskContainer.vue';
 
 interface UnitContainerProps {
     unit: {
@@ -14,6 +15,8 @@ const unitContainerComponent = computed(() => {
     switch (props?.unit?.type) {
         case 'theory':
             return TheoryContainer;
+        case 'task':
+            return TaskContainer;
         default:
             return '';
     }

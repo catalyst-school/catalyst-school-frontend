@@ -1,13 +1,13 @@
 <script setup lang="ts">
 import { NThing, NAvatar, NIcon, NEllipsis } from 'naive-ui';
-import { Book } from '@vicons/tabler';
+import { Edit } from '@vicons/tabler';
 
-interface TheoryUnit {
+interface TaskUnit {
     title: string;
     content: string;
 }
 
-const props = defineProps<TheoryUnit>();
+const props = defineProps<TaskUnit>();
 </script>
 
 <template>
@@ -15,10 +15,10 @@ const props = defineProps<TheoryUnit>();
         <template #avatar>
             <NAvatar
                 :style="{
-                    backgroundColor: '#f0a020',
+                    backgroundColor: '#18a058',
                 }"
             >
-                <NIcon :component="Book" />
+                <NIcon :component="Edit" />
             </NAvatar>
         </template>
         <template #header>{{ props?.title }}</template>
