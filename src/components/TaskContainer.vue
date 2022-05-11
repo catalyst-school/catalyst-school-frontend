@@ -1,13 +1,13 @@
 <script setup lang="ts">
 import { NThing, NAvatar, NIcon, NEllipsis, NButton } from 'naive-ui';
 import { Edit, Trash } from '@vicons/tabler';
+import type { TaskUnit } from '@/models/TaskUnit';
 
-interface TaskUnit {
-    title: string;
-    content: string;
+interface Props {
+    unit: TaskUnit;
 }
 
-const props = defineProps<TaskUnit>();
+const props = defineProps<Props>();
 </script>
 
 <template>
@@ -21,7 +21,7 @@ const props = defineProps<TaskUnit>();
                 <NIcon :component="Edit" />
             </NAvatar>
         </template>
-        <template #header>{{ props?.title }}</template>
+        <template #header>Задача</template>
         <template #header-extra>
             <NButton circle size="small">
                 <template #icon>
@@ -32,7 +32,7 @@ const props = defineProps<TaskUnit>();
         <template #description>Описание</template>
 
         <NEllipsis expand-trigger="click" line-clamp="1" :tooltip="false">
-            {{ props?.content }}
+            {{ props.unit?.description }}
         </NEllipsis>
     </NThing>
 </template>

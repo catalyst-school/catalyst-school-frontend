@@ -3,6 +3,9 @@ import ThemeSectionContainer from '@/components/ThemeSectionContainer.vue';
 import { reactive } from 'vue';
 import { NSpace, NButton, NIcon } from 'naive-ui';
 import { Book, ChartArcs, TestPipe } from '@vicons/tabler';
+import type { Theme } from '@/models/Theme';
+import type { TaskUnit } from '@/models/TaskUnit';
+import { ThemeSectionType } from '@/models/ThemeSection';
 
 const theme = reactive({
     id: 1,
@@ -39,14 +42,14 @@ const theme = reactive({
                     id: 1,
                     type: 'task',
                     title: 'Молярная масса',
-                    content:
+                    description:
                         'характеристика вещества, отношение массы вещества к его количеству. Численно равна массе одного моля вещества, то есть массе вещества, содержащего число частиц, равное числу Авогадро. ',
                 },
                 {
                     id: 2,
                     type: 'task',
                     title: 'Молярная масса 2',
-                    content:
+                    description:
                         'характеристика вещества, отношение массы вещества к его количеству. Численно равна массе одного моля вещества, то есть массе вещества, содержащего число частиц, равное числу Авогадро. ',
                 },
             ],
@@ -58,21 +61,19 @@ const theme = reactive({
                 {
                     id: 3,
                     type: 'task',
-                    title: 'Молярная масса',
-                    content:
+                    description:
                         'характеристика вещества, отношение массы вещества к его количеству. Численно равна массе одного моля вещества, то есть массе вещества, содержащего число частиц, равное числу Авогадро. ',
-                },
+                } as TaskUnit,
                 {
                     id: 4,
                     type: 'task',
-                    title: 'Молярная масса 2',
-                    content:
+                    description:
                         'характеристика вещества, отношение массы вещества к его количеству. Численно равна массе одного моля вещества, то есть массе вещества, содержащего число частиц, равное числу Авогадро. ',
                 },
             ],
         },
     ],
-});
+} as Theme);
 
 const addUnit = (sectionType: string) => {
     let targetSection = theme.sections.find((s) => s.type === sectionType);
@@ -82,7 +83,7 @@ const addUnit = (sectionType: string) => {
     targetSection.units.push({ ...targetSection.units[0], id: targetSection.units.length });
 };
 
-const addSection = (sectionType: string) => {
+const addSection = (sectionType: ThemeSectionType) => {
     theme.sections.push({ id: theme.sections.length, type: sectionType, units: [] });
 };
 </script>
@@ -95,19 +96,24 @@ const addSection = (sectionType: string) => {
         ></ThemeSectionContainer>
     </template>
     <NSpace>
-        <NButton size="large" secondary type="warning" @click="addSection('theory')">
+        <NButton size="large" secondary type="warning" @click="addSection(ThemeSectionType.THEORY)">
             <template #icon>
                 <NIcon :component="Book" />
             </template>
             Добавить теорию
         </NButton>
-        <NButton size="large" secondary type="success" @click="addSection('training')">
+        <NButton
+            size="large"
+            secondary
+            type="success"
+            @click="addSection(ThemeSectionType.TRAINING)"
+        >
             <template #icon>
                 <NIcon :component="ChartArcs" />
             </template>
             Добавить тренажер
         </NButton>
-        <NButton size="large" secondary type="error" @click="addSection('test')">
+        <NButton size="large" secondary type="error" @click="addSection(ThemeSectionType.TEST)">
             <template #icon>
                 <NIcon :component="TestPipe" />
             </template>

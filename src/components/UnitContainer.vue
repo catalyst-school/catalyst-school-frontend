@@ -2,14 +2,10 @@
 import { computed, defineProps } from 'vue';
 import TheoryContainer from './TheoryContainer.vue';
 import TaskContainer from './TaskContainer.vue';
-
-interface Unit {
-    id: string;
-    type: string;
-}
+import type { LearningUnit } from '@/models/LearningUnit';
 
 interface Props {
-    unit: Unit;
+    unit: LearningUnit;
 }
 
 const props = defineProps<Props>();
@@ -27,5 +23,5 @@ const unitContainerComponent = computed(() => {
 </script>
 
 <template>
-    <component :is="unitContainerComponent" v-bind="props.unit"></component>
+    <component :is="unitContainerComponent" :unit="props.unit"></component>
 </template>

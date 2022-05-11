@@ -3,15 +3,11 @@ import { computed, defineProps } from 'vue';
 import UnitContainer from './UnitContainer.vue';
 import { NAvatar, NSpace, NButton, NIcon, NGrid, NGi, NThing } from 'naive-ui';
 import { Plus, List, Barbell, TestPipe, Briefcase, Trash } from '@vicons/tabler';
+import type { ThemeSection } from '@/models/ThemeSection';
+import type { Type } from 'naive-ui/lib/button/src/interface';
 
 interface Props {
-    section: Section;
-}
-
-interface Section {
-    id: number;
-    type: string;
-    units: [];
+    section: ThemeSection;
 }
 
 interface Events {
@@ -27,10 +23,11 @@ const avatarBG = computed(() => {
 });
 
 const buttonType = computed(() => {
-    if (props.section.type === 'theory') return 'warning';
-    if (props.section.type === 'training') return 'success';
-    if (props.section.type === 'test') return 'error';
-    return null;
+    if (props.section.type === 'theory') return 'warning' as Type;
+    if (props.section.type === 'training') return 'success' as Type;
+    if (props.section.type === 'test') return 'error' as Type;
+
+    return 'default' as Type;
 });
 
 const icon = computed(() => {
@@ -58,7 +55,9 @@ defineEmits<Events>();
                     backgroundColor: avatarBG,
                 }"
             >
-                <NIcon :component="icon" />
+                <NIcon>
+                    <component :is="icon"></component>
+                </NIcon>
             </NAvatar>
         </template>
         <template #header>{{ title }}</template>
