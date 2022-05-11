@@ -69,7 +69,7 @@ defineEmits<Events>();
             </NButton>
         </template>
 
-        <NGrid x-gap="16" y-gap="16" :cols="4" :style="{ 'margin-bottom': '24px' }">
+        <NGrid class="unit-list" x-gap="16" y-gap="16" :cols="4">
             <NGi v-for="unit of props.section.units" :key="unit.id">
                 <UnitContainer :unit="unit"></UnitContainer>
             </NGi>
@@ -95,30 +95,36 @@ defineEmits<Events>();
 </template>
 
 <style scoped lang="scss">
+@import '@/assets/variables.scss';
+
 .section {
     padding: 16px;
     margin-bottom: 16px;
 
     &.theory {
-        background: rgba(240, 160, 32, 0.16);
+        background: $yellow-secondary;
     }
     &.training {
-        background: rgba(24, 160, 88, 0.16);
+        background: $green-secondary;
     }
     &.test {
-        background: rgba(208, 48, 80, 0.16);
+        background: $red-secondary;
     }
 }
 
 .title {
     &.theory {
-        color: #f0a020;
+        color: $yellow-main;
     }
     &.training {
-        color: #18a058;
+        color: $green-main;
     }
     &.test {
-        color: #d03050;
+        color: $red-main;
     }
+}
+
+.unit-list {
+    margin-bottom: $base * 3;
 }
 </style>

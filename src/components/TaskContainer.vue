@@ -13,11 +13,7 @@ const props = defineProps<Props>();
 <template>
     <NThing content-indented class="unit">
         <template #avatar>
-            <NAvatar
-                :style="{
-                    backgroundColor: '#18a058',
-                }"
-            >
+            <NAvatar class="avatar">
                 <NIcon :component="Edit" />
             </NAvatar>
         </template>
@@ -38,6 +34,8 @@ const props = defineProps<Props>();
 </template>
 
 <style scoped lang="scss">
+@import '@/assets/variables.scss';
+
 .unit {
     background: white;
     padding: 16px;
@@ -45,5 +43,8 @@ const props = defineProps<Props>();
     &:last-child {
         margin-bottom: 0;
     }
+}
+.avatar {
+    background-color: $green-main;
 }
 </style>
