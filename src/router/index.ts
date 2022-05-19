@@ -1,6 +1,6 @@
 import { createRouter, createWebHistory } from 'vue-router';
 
-// todo use enums
+// todo use enums for route names
 const router = createRouter({
     history: createWebHistory(import.meta.env.BASE_URL),
     routes: [
@@ -10,9 +10,14 @@ const router = createRouter({
             component: () => import('../views/HomeView.vue'),
         },
         {
-            path: '/theme-builder',
-            name: 'theme-builder',
-            component: () => import('../views/ThemeBuilder.vue'),
+            path: '/topic-list',
+            name: 'topic-list',
+            component: () => import('../views/TopicList.vue'),
+        },
+        {
+            path: '/topic-builder/:id',
+            name: 'topic-builder',
+            component: () => import('../views/TopicBuilder.vue'),
         },
     ],
 });

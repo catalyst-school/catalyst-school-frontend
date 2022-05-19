@@ -1,10 +1,11 @@
 <script setup lang="ts">
 import { NThing, NAvatar, NIcon, NEllipsis, NButton } from 'naive-ui';
-import { Edit, Trash } from '@vicons/tabler';
-import type { TaskUnit } from '@/models/TaskUnit';
+import { Book, Trash } from '@vicons/tabler';
+import { defineProps } from 'vue';
+import type { Theory } from '@/models/Theory';
 
 interface Props {
-    unit: TaskUnit;
+    theory: Theory;
 }
 
 const props = defineProps<Props>();
@@ -14,10 +15,11 @@ const props = defineProps<Props>();
     <NThing content-indented class="unit">
         <template #avatar>
             <NAvatar class="avatar">
-                <NIcon :component="Edit" />
+                <NIcon :component="Book" />
             </NAvatar>
         </template>
-        <template #header>Задача</template>
+        <template #header>{{ props.theory?.title }}</template>
+        <template #description>Описание</template>
         <template #header-extra>
             <NButton circle size="small">
                 <template #icon>
@@ -25,10 +27,9 @@ const props = defineProps<Props>();
                 </template>
             </NButton>
         </template>
-        <template #description>Описание</template>
 
-        <NEllipsis expand-trigger="click" line-clamp="1" :tooltip="false">
-            {{ props.unit?.description }}
+        <NEllipsis expand-trigger="click" line-clamp="2" :tooltip="false">
+            {{ props.theory?.content }}
         </NEllipsis>
     </NThing>
 </template>
@@ -38,13 +39,14 @@ const props = defineProps<Props>();
 
 .unit {
     background: white;
-    padding: 16px;
+    padding: $base * 2;
 
     &:last-child {
         margin-bottom: 0;
     }
 }
+
 .avatar {
-    background-color: $green-main;
+    background: $yellow-main;
 }
 </style>
