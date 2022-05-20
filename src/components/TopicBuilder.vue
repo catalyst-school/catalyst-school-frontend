@@ -2,14 +2,23 @@
 import TopicSectionBuilder from '@/components/TopicSectionBuilder.vue';
 import { NSpace, NButton, NIcon } from 'naive-ui';
 import { Book, ChartArcs, TestPipe } from '@vicons/tabler';
-import type { Topic } from '@/models/Topic';
+import { onMounted } from 'vue';
+import { useTopicStore } from '@/stores/TopicStore';
+import { storeToRefs } from 'pinia';
+import { useRoute } from 'vue-router';
 
-// todo take id from url and request from backend
-const topic = {} as Topic;
+const topicStore = useTopicStore();
+const { topic } = storeToRefs(topicStore);
+const route = useRoute();
+
+onMounted(() => {
+    const topicId = route.params['id'];
+    topicStore.getById(topicId as string);
+});
 </script>
 
 <template>
-    <template v-for="section of topic.sections" :key="section.id">
+    <template v-for="section of topic?.sections" :key="section.id">
         <TopicSectionBuilder :section="section"></TopicSectionBuilder>
     </template>
     <NSpace>
@@ -33,5 +42,3 @@ const topic = {} as Topic;
         </NButton>
     </NSpace>
 </template>
-
-<style></style>

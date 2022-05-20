@@ -1,5 +1,5 @@
-import type { Task } from './Task';
-import type { Theory } from './Theory';
+import type { Task } from '../task/Task';
+import type { Theory } from '../theory/Theory';
 
 export enum TopicSectionType {
     THEORY = 'theory',

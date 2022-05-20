@@ -2,7 +2,7 @@
 import { NThing, NAvatar, NIcon, NEllipsis, NButton } from 'naive-ui';
 import { Book, Trash } from '@vicons/tabler';
 import { defineProps } from 'vue';
-import type { Theory } from '@/models/Theory';
+import type { Theory } from '@/models/theory/Theory';
 
 interface Props {
     theory: Theory;

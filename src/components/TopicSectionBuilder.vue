@@ -2,7 +2,7 @@
 import { computed, defineProps } from 'vue';
 import { NAvatar, NSpace, NButton, NIcon, NGrid, NGi, NThing } from 'naive-ui';
 import { Plus, List, Barbell, TestPipe, Briefcase, Trash } from '@vicons/tabler';
-import type { TopicSection } from '@/models/TopicSection';
+import type { TopicSection } from '@/models/topic/TopicSection';
 import type { Type } from 'naive-ui/lib/button/src/interface';
 import TheoryCard from './TheoryCard.vue';
 import TaskCard from './TaskCard.vue';

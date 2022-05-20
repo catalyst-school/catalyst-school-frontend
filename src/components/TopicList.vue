@@ -1,40 +1,49 @@
 <script setup lang="ts">
-import { inject, reactive, onMounted } from 'vue';
-import type { TopicService } from '../services/TopicService';
-import type { Topic } from '@/models/Topic';
-import { NList, NListItem, NButton, NSpace } from 'naive-ui';
+import { useTopicStore } from '@/stores/TopicStore';
+import { NButton, NList, NListItem, NSpace, NThing } from 'naive-ui';
+import { storeToRefs } from 'pinia';
+import { onMounted } from 'vue';
 import { useRouter } from 'vue-router';
 
-const state = reactive<{ topics: Topic[] }>({ topics: [] });
-const services = inject<{ topicService: TopicService }>('services');
+const topicStore = useTopicStore();
+const { topics } = storeToRefs(topicStore);
 const router = useRouter();
 
 onMounted(async () => {
-    let topics = await services?.topicService.getAll();
-    state.topics.push(...(topics || []));
+    topicStore.getAll();
 });
 
 const editTopic = (id: string) => {
     router.push({ name: 'topic-builder', params: { id } });
 };
 
-const removeTopic = (is: string) => {
-    // todo use store and service to remove topic
+const removeTopic = (id: string) => {
+    topicStore.remove(id);
 };
 </script>
 
 <template>
     <NList bordered>
-        <NListItem v-for="topic of state.topics" :key="topic._id" @click="editTopic(topic._id)">
-            {{ topic.title }}
-
+        <NListItem
+            v-for="topic of topics"
+            :key="topic._id"
+            class="list-item"
+            @click="editTopic(topic._id)"
+        >
+            <NThing :title="topic.title"> </NThing>
             <template #suffix>
                 <NSpace>
-                    <NButton type="error" round @click.prevent="removeTopic(topic._id)"
-                        >Удалить</NButton
-                    >
+                    <NButton type="error" round @click.stop="removeTopic(topic._id)">
+                        Удалить
+                    </NButton>
                 </NSpace>
             </template>
         </NListItem>
     </NList>
 </template>
+
+<style scoped>
+.list-item {
+    cursor: pointer;
+}
+</style>

@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { NThing, NAvatar, NIcon, NEllipsis, NButton } from 'naive-ui';
 import { Edit, Trash } from '@vicons/tabler';
-import type { Task } from '@/models/Task';
+import type { Task } from '@/models/task/Task';
 
 interface Props {
     task: Task;
