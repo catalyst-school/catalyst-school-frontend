@@ -2,7 +2,7 @@
 import { computed, defineProps } from 'vue';
 import { NAvatar, NSpace, NButton, NIcon, NGrid, NGi, NThing } from 'naive-ui';
 import { Plus, List, Barbell, TestPipe, Briefcase, Trash } from '@vicons/tabler';
-import type { TopicSection } from '@/models/topic/TopicSection';
+import { TopicSectionType, type TopicSection } from '@/models/topic/TopicSection';
 import type { Type } from 'naive-ui/lib/button/src/interface';
 import TheoryCard from './TheoryCard.vue';
 import TaskCard from './TaskCard.vue';
@@ -71,7 +71,7 @@ defineEmits<Events>();
         </template>
 
         <NGrid class="unit-list" x-gap="16" y-gap="16" :cols="4">
-            <template v-if="props.section.type === 'theory'">
+            <template v-if="props.section.type === TopicSectionType.THEORY">
                 <NGi v-for="theory of props.section.theories" :key="theory._id">
                     <TheoryCard :theory="theory" />
                 </NGi>
