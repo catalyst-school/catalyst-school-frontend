@@ -78,7 +78,7 @@ defineEmits<Events>();
             </template>
             <template v-else>
                 <NGi v-for="task of props.section.tasks" :key="task._id">
-                    <TaskCard :task="theory" />
+                    <TaskCard :task="task" />
                 </NGi>
             </template>
         </NGrid>
