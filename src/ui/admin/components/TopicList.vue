@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { useTopicStore } from '@/stores/TopicStore';
+import { RouteNames } from '@/ui/router';
 import { NButton, NList, NListItem, NSpace, NThing } from 'naive-ui';
 import { storeToRefs } from 'pinia';
 import { onMounted } from 'vue';
@@ -14,7 +15,7 @@ onMounted(async () => {
 });
 
 const editTopic = (id: string) => {
-    router.push({ name: 'topic-builder', params: { id } });
+    router.push({ name: RouteNames.AdminTopicBuilder, params: { id } });
 };
 
 const removeTopic = (id: string) => {

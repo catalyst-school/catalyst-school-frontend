@@ -11,19 +11,14 @@ function renderIcon(icon: Component) {
 
 const menuOptions: MenuOption[] = [
     {
-        label: () =>
-            h(RouterLink, { to: { name: RouteNames.Admin } }, { default: () => 'Админка' }),
-        key: RouteNames.Admin,
+        label: () => h(RouterLink, { to: { name: RouteNames.Main } }, { default: () => 'Главная' }),
+        key: RouteNames.Main,
         icon: renderIcon(Home),
     },
     {
         label: () =>
-            h(
-                RouterLink,
-                { to: { name: RouteNames.AdminTopicList } },
-                { default: () => 'Конструктор тем' },
-            ),
-        key: RouteNames.AdminTopicList,
+            h(RouterLink, { to: { name: RouteNames.Admin } }, { default: () => 'Админ панель' }),
+        key: 'topic-list',
         icon: renderIcon(Crane),
     },
 ];
