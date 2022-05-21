@@ -1,13 +1,14 @@
 <script lang="ts" setup>
 import { computed, defineProps } from 'vue';
-import UnitContainer from './UnitContainer.vue';
 import { NAvatar, NSpace, NButton, NIcon, NGrid, NGi, NThing } from 'naive-ui';
 import { Plus, List, Barbell, TestPipe, Briefcase, Trash } from '@vicons/tabler';
-import type { ThemeSection } from '@/models/ThemeSection';
+import { TopicSectionType, type TopicSection } from '@/models/topic/TopicSection';
 import type { Type } from 'naive-ui/lib/button/src/interface';
+import TheoryCard from './TheoryCard.vue';
+import TaskCard from './TaskCard.vue';
 
 interface Props {
-    section: ThemeSection;
+    section: TopicSection;
 }
 
 interface Events {
@@ -70,9 +71,16 @@ defineEmits<Events>();
         </template>
 
         <NGrid class="unit-list" x-gap="16" y-gap="16" :cols="4">
-            <NGi v-for="unit of props.section.units" :key="unit.id">
-                <UnitContainer :unit="unit"></UnitContainer>
-            </NGi>
+            <template v-if="props.section.type === TopicSectionType.THEORY">
+                <NGi v-for="theory of props.section.theories" :key="theory._id">
+                    <TheoryCard :theory="theory" />
+                </NGi>
+            </template>
+            <template v-else>
+                <NGi v-for="task of props.section.tasks" :key="task._id">
+                    <TaskCard :task="task" />
+                </NGi>
+            </template>
         </NGrid>
 
         <template #footer>

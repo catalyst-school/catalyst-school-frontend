@@ -16,8 +16,8 @@ const menuOptions: MenuOption[] = [
     },
     {
         label: () =>
-            h(RouterLink, { to: { name: 'theme-builder' } }, { default: () => 'Конструктор тем' }),
-        key: 'theme-builder',
+            h(RouterLink, { to: { name: 'topic-list' } }, { default: () => 'Конструктор тем' }),
+        key: 'topic-list',
         icon: renderIcon(Crane),
     },
 ];
