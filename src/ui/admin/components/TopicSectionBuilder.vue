@@ -1,51 +1,59 @@
 <script lang="ts" setup>
-import { computed, defineProps } from 'vue';
-import { NAvatar, NSpace, NButton, NIcon, NGrid, NGi, NThing } from 'naive-ui';
-import { Plus, List, Barbell, TestPipe, Briefcase, Trash } from '@vicons/tabler';
+import type { UpdateTopicSectionDto } from '@/models/topic/dto/UpdateTopicSectionDto';
 import { TopicSectionType, type TopicSection } from '@/models/topic/TopicSection';
+import { useTopicStore } from '@/stores/TopicStore';
+import { Barbell, Briefcase, List, Plus, TestPipe, Trash } from '@vicons/tabler';
+import { NAvatar, NButton, NGi, NGrid, NIcon, NSpace, NThing } from 'naive-ui';
 import type { Type } from 'naive-ui/lib/button/src/interface';
-import TheoryCard from './TheoryCard.vue';
+import { storeToRefs } from 'pinia';
+import { computed, defineProps } from 'vue';
 import TaskCard from './TaskCard.vue';
+import TheoryCard from './TheoryCard.vue';
 
 interface Props {
     section: TopicSection;
 }
 
-interface Events {
-    (e: 'add'): void;
-}
+const topicStore = useTopicStore();
+const { topic } = storeToRefs(topicStore);
 
 const props = defineProps<Props>();
 const avatarBG = computed(() => {
-    if (props.section.type === 'theory') return '#f0a020';
-    if (props.section.type === 'training') return '#18a058';
-    if (props.section.type === 'test') return '#d03050';
+    if (props.section.type === TopicSectionType.THEORY) return '#f0a020';
+    if (props.section.type === TopicSectionType.TRAINING) return '#18a058';
+    if (props.section.type === TopicSectionType.TEST) return '#d03050';
     return null;
 });
 
 const buttonType = computed(() => {
-    if (props.section.type === 'theory') return 'warning' as Type;
-    if (props.section.type === 'training') return 'success' as Type;
-    if (props.section.type === 'test') return 'error' as Type;
+    if (props.section.type === TopicSectionType.THEORY) return 'warning' as Type;
+    if (props.section.type === TopicSectionType.TRAINING) return 'success' as Type;
+    if (props.section.type === TopicSectionType.TEST) return 'error' as Type;
 
     return 'default' as Type;
 });
 
 const icon = computed(() => {
-    if (props.section.type === 'theory') return Briefcase;
-    if (props.section.type === 'training') return Barbell;
-    if (props.section.type === 'test') return TestPipe;
+    if (props.section.type === TopicSectionType.THEORY) return Briefcase;
+    if (props.section.type === TopicSectionType.TRAINING) return Barbell;
+    if (props.section.type === TopicSectionType.TEST) return TestPipe;
     return null;
 });
 
 const title = computed(() => {
-    if (props.section.type === 'theory') return 'Теория';
-    if (props.section.type === 'training') return 'Тренажер';
-    if (props.section.type === 'test') return 'Контроль';
+    if (props.section.type === TopicSectionType.THEORY) return 'Теория';
+    if (props.section.type === TopicSectionType.TRAINING) return 'Тренажер';
+    if (props.section.type === TopicSectionType.TEST) return 'Контроль';
     return null;
 });
 
-defineEmits<Events>();
+const removeSection = () => {
+    const updatedSections = topic.value?.sections.filter((s) => s._id !== props.section._id);
+
+    topicStore.update(topic.value?._id as string, {
+        sections: updatedSections as UpdateTopicSectionDto[],
+    });
+};
 </script>
 
 <template>
@@ -63,7 +71,7 @@ defineEmits<Events>();
         </template>
         <template #header>{{ title }}</template>
         <template #header-extra>
-            <NButton circle strong secondary type="error">
+            <NButton circle strong secondary type="error" @click="removeSection">
                 <template #icon>
                     <Trash />
                 </template>
@@ -85,7 +93,7 @@ defineEmits<Events>();
 
         <template #footer>
             <n-space>
-                <NButton dashed :type="buttonType" @click="$emit('add')">
+                <NButton dashed :type="buttonType">
                     <template #icon>
                         <NIcon :component="Plus" />
                     </template>
@@ -117,18 +125,6 @@ defineEmits<Events>();
     }
     &.test {
         background: $red-secondary;
-    }
-}
-
-.title {
-    &.theory {
-        color: $yellow-main;
-    }
-    &.training {
-        color: $green-main;
-    }
-    &.test {
-        color: $red-main;
     }
 }
 

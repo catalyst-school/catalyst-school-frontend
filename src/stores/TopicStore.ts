@@ -32,6 +32,7 @@ export const useTopicStore = defineStore(Stores.Topic, {
                 const updatedTopic = await services.topicService.update(id, topic);
                 const index = this.topics.findIndex((t) => t._id === id);
                 this.topics[index] = updatedTopic;
+                this.topic = updatedTopic;
             } catch (e) {
                 console.error(e);
             }

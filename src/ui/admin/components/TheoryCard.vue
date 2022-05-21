@@ -1,8 +1,8 @@
 <script setup lang="ts">
-import { NThing, NAvatar, NIcon, NEllipsis, NButton } from 'naive-ui';
-import { Book, Trash } from '@vicons/tabler';
-import { defineProps } from 'vue';
 import type { Theory } from '@/models/theory/Theory';
+import { Trash } from '@vicons/tabler';
+import { NButton, NEllipsis, NThing } from 'naive-ui';
+import { defineProps } from 'vue';
 
 interface Props {
     theory: Theory;
@@ -13,13 +13,7 @@ const props = defineProps<Props>();
 
 <template>
     <NThing content-indented class="unit">
-        <template #avatar>
-            <NAvatar class="avatar">
-                <NIcon :component="Book" />
-            </NAvatar>
-        </template>
         <template #header>{{ props.theory?.title }}</template>
-        <template #description>Описание</template>
         <template #header-extra>
             <NButton circle size="small">
                 <template #icon>
@@ -44,9 +38,5 @@ const props = defineProps<Props>();
     &:last-child {
         margin-bottom: 0;
     }
-}
-
-.avatar {
-    background: $yellow-main;
 }
 </style>
