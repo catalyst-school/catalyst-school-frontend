@@ -24,17 +24,16 @@ import { NInput, NSpace, NButton } from 'naive-ui';
 import { reactive } from 'vue';
 
 interface Form {
-    id: string;
     title: string;
     text: string;
 }
 
 const props = defineProps<{
-    formData: Form;
+    formData?: Form;
 }>();
 
 const emit = defineEmits<{
-    (e: 'save'): void;
+    (e: 'save', form: Form): void;
     (e: 'close'): void;
 }>();
 

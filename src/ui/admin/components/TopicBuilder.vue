@@ -6,7 +6,7 @@ import { onMounted, ref } from 'vue';
 import { useTopicStore } from '@/stores/TopicStore';
 import { storeToRefs } from 'pinia';
 import { useRoute } from 'vue-router';
-import CreateTaskForm from './TaskForm.vue';
+import TaskForm from './TaskForm.vue';
 
 const topicStore = useTopicStore();
 const { topic } = storeToRefs(topicStore);
@@ -18,7 +18,7 @@ onMounted(() => {
     topicStore.getById(topicId as string);
 });
 
-const createTask = (task): void => {
+const createTask = (task: any): void => {
     // todo: реализовать сервис, добавить интерфейс
     console.log('createTask');
     showModal.value = false;
@@ -54,6 +54,6 @@ const createTask = (task): void => {
         <template #header>
             <div>Создать задачу</div>
         </template>
-        <CreateTaskForm @save="createTask(task)" @close="showModal = false"></CreateTaskForm>
+        <TaskForm @save="createTask($event)" @close="showModal = false" />
     </n-modal>
 </template>
