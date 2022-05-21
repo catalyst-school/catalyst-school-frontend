@@ -1,20 +1,28 @@
 <script setup lang="ts">
-import TopicSectionBuilder from '@/components/TopicSectionBuilder.vue';
-import { NSpace, NButton, NIcon } from 'naive-ui';
+import TopicSectionBuilder from './TopicSectionBuilder.vue';
+import { NSpace, NButton, NIcon, NModal } from 'naive-ui';
 import { Book, ChartArcs, TestPipe } from '@vicons/tabler';
-import { onMounted } from 'vue';
+import { onMounted, ref } from 'vue';
 import { useTopicStore } from '@/stores/TopicStore';
 import { storeToRefs } from 'pinia';
 import { useRoute } from 'vue-router';
+import CreateTaskForm from './TaskForm.vue';
 
 const topicStore = useTopicStore();
 const { topic } = storeToRefs(topicStore);
 const route = useRoute();
+let showModal = ref(false);
 
 onMounted(() => {
     const topicId = route.params['id'];
     topicStore.getById(topicId as string);
 });
+
+const createTask = (task): void => {
+    // todo: реализовать сервис, добавить интерфейс
+    console.log('createTask');
+    showModal.value = false;
+};
 </script>
 
 <template>
@@ -41,4 +49,11 @@ onMounted(() => {
             Добавить контроль
         </NButton>
     </NSpace>
+
+    <n-modal v-model:show="showModal" preset="dialog">
+        <template #header>
+            <div>Создать задачу</div>
+        </template>
+        <CreateTaskForm @save="createTask(task)" @close="showModal = false"></CreateTaskForm>
+    </n-modal>
 </template>

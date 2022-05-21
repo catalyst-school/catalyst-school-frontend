@@ -1,11 +1,10 @@
 <script lang="ts" setup>
-import AdminMenu from './components/AdminMenu.vue';
+import AdminMenu from '@/ui/admin/components/AdminMenu.vue';
 import { RouterView } from 'vue-router';
 </script>
 
 <template>
     <AdminMenu />
-
     <main>
         <RouterView />
     </main>

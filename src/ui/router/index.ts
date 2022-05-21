@@ -7,17 +7,17 @@ const router = createRouter({
         {
             path: '/',
             name: 'home',
-            component: () => import('../views/HomeView.vue'),
+            component: () => import('../admin/views/HomeView.vue'),
         },
         {
             path: '/topic-list',
             name: 'topic-list',
-            component: () => import('../views/TopicList.vue'),
+            component: () => import('../admin/views/TopicList.vue'),
         },
         {
             path: '/topic-builder/:id',
             name: 'topic-builder',
-            component: () => import('../views/TopicBuilder.vue'),
+            component: () => import('../admin/views/TopicBuilder.vue'),
         },
     ],
 });

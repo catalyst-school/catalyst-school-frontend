@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { NPageHeader } from 'naive-ui';
-import TopicList from '@/components/TopicList.vue';
+import TopicBuilder from '../components/TopicBuilder.vue';
 </script>
 
 <template>
@@ -8,7 +8,7 @@ import TopicList from '@/components/TopicList.vue';
         <NPageHeader title="Конструктор Тем" />
     </div>
 
-    <TopicList />
+    <TopicBuilder />
 </template>
 
 <style scoped lang="scss">
