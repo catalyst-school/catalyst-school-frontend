@@ -1,5 +1,4 @@
 <script lang="ts" setup>
-import type { UpdateTopicSectionDto } from '@/models/topic/dto/UpdateTopicSectionDto';
 import { TopicSectionType, type TopicSection } from '@/models/topic/TopicSection';
 import { useTopicStore } from '@/stores/TopicStore';
 import { Barbell, Briefcase, List, Plus, TestPipe, Trash } from '@vicons/tabler';
@@ -48,11 +47,7 @@ const title = computed(() => {
 });
 
 const removeSection = () => {
-    const updatedSections = topic.value?.sections.filter((s) => s._id !== props.section._id);
-
-    topicStore.update(topic.value?._id as string, {
-        sections: updatedSections as UpdateTopicSectionDto[],
-    });
+    if (topic.value) topicStore.removeSection(topic.value._id, props.section._id);
 };
 </script>
 

@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { useTopicStore } from '@/stores/TopicStore';
 import { RouteNames } from '@/ui/router';
+import { Plus, Trash } from '@vicons/tabler';
 import { NButton, NList, NListItem, NSpace, NThing } from 'naive-ui';
 import { storeToRefs } from 'pinia';
 import { onMounted } from 'vue';
@@ -21,9 +22,23 @@ const editTopic = (id: string) => {
 const removeTopic = (id: string) => {
     topicStore.remove(id);
 };
+
+const createTopic = async () => {
+    const newTopic = await topicStore.create({ title: 'Без названия', sections: [] });
+    if (newTopic) {
+        editTopic(newTopic._id);
+    }
+};
 </script>
 
 <template>
+    <NButton round type="primary" @click="createTopic">
+        <template #icon>
+            <Plus />
+        </template>
+        Создать новую тему
+    </NButton>
+
     <NList bordered>
         <NListItem
             v-for="topic of topics"
@@ -35,7 +50,9 @@ const removeTopic = (id: string) => {
             <template #suffix>
                 <NSpace>
                     <NButton type="error" round @click.stop="removeTopic(topic._id)">
-                        Удалить
+                        <template #icon>
+                            <Trash />
+                        </template>
                     </NButton>
                 </NSpace>
             </template>

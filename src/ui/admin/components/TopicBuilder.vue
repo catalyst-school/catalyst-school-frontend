@@ -1,18 +1,20 @@
 <script setup lang="ts">
-import type { UpdateTopicSectionDto } from '@/models/topic/dto/UpdateTopicSectionDto';
 import { TopicSectionType } from '@/models/topic/TopicSection';
 import { useTopicStore } from '@/stores/TopicStore';
+import { RouteNames } from '@/ui/router';
 import { Book, ChartArcs, TestPipe } from '@vicons/tabler';
-import { NButton, NIcon, NModal, NSpace } from 'naive-ui';
+import { NButton, NIcon, NModal, NPageHeader, NSpace } from 'naive-ui';
 import { storeToRefs } from 'pinia';
 import { onMounted, ref } from 'vue';
-import { useRoute } from 'vue-router';
+import { useRoute, useRouter } from 'vue-router';
+import EditableHeader from './EditableHeader.vue';
 import TaskForm from './TaskForm.vue';
 import TopicSectionBuilder from './TopicSectionBuilder.vue';
 
 const topicStore = useTopicStore();
 const { topic } = storeToRefs(topicStore);
 const route = useRoute();
+const router = useRouter();
 let showModal = ref(false);
 
 onMounted(() => {
@@ -21,11 +23,7 @@ onMounted(() => {
 });
 
 const addSection = (type: TopicSectionType) => {
-    const updatedSections = [...(topic.value?.sections || []), { type, theories: [], tasks: [] }];
-
-    topicStore.update(topic.value?._id as string, {
-        sections: updatedSections as UpdateTopicSectionDto[],
-    });
+    topicStore.addSection(topic.value?._id as string, type);
 };
 
 const createTask = (task: any): void => {
@@ -33,9 +31,23 @@ const createTask = (task: any): void => {
     console.log('createTask');
     showModal.value = false;
 };
+
+const changeTitle = (title: string): void => {
+    topicStore.updateTitle(topic.value?._id as string, title);
+};
+
+const handleBack = () => {
+    router.push({ name: RouteNames.AdminTopicList });
+};
 </script>
 
 <template>
+    <NPageHeader class="title" @back="handleBack">
+        <template #title>
+            <EditableHeader v-if="topic" :title="topic.title" @update="changeTitle" />
+        </template>
+    </NPageHeader>
+
     <template v-for="section of topic?.sections" :key="section.id">
         <TopicSectionBuilder :section="section"></TopicSectionBuilder>
     </template>
@@ -72,3 +84,11 @@ const createTask = (task: any): void => {
         <TaskForm @save="createTask($event)" @close="showModal = false" />
     </n-modal>
 </template>
+
+<style scoped lang="scss">
+@import '@/assets/variables.scss';
+
+.title {
+    margin-bottom: $base * 2;
+}
+</style>
