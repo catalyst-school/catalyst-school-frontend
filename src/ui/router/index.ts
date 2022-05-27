@@ -1,23 +1,35 @@
 import { createRouter, createWebHistory } from 'vue-router';
+export enum RouteNames {
+    Main = 'main',
+    Admin = 'admin',
+    AdminTopicList = 'admin-topic-list',
+    AdminTopicBuilder = 'admin-topic-builder',
+}
 
-// todo use enums for route names
 const router = createRouter({
     history: createWebHistory(import.meta.env.BASE_URL),
     routes: [
         {
             path: '/',
-            name: 'home',
-            component: () => import('../admin/views/HomeView.vue'),
+            name: RouteNames.Main,
+            component: () => import('../main/views/MainView.vue'),
         },
         {
-            path: '/topic-list',
-            name: 'topic-list',
-            component: () => import('../admin/views/TopicList.vue'),
-        },
-        {
-            path: '/topic-builder/:id',
-            name: 'topic-builder',
-            component: () => import('../admin/views/TopicBuilder.vue'),
+            path: '/admin',
+            name: RouteNames.Admin,
+            component: () => import('../admin/views/AdminView.vue'),
+            children: [
+                {
+                    path: 'topic-list',
+                    name: RouteNames.AdminTopicList,
+                    component: () => import('../admin/views/TopicList.vue'),
+                },
+                {
+                    path: 'topic-builder/:id',
+                    name: RouteNames.AdminTopicBuilder,
+                    component: () => import('../admin/views/TopicBuilder.vue'),
+                },
+            ],
         },
     ],
 });
