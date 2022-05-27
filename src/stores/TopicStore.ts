@@ -5,6 +5,7 @@ import type { TopicSectionType } from '@/models/topic/TopicSection';
 import { defineStore } from 'pinia';
 import { useServiceStore } from './ServiceStore';
 import { Stores } from './StoresEnum';
+import { useTaskStore } from './TaskStore';
 
 interface TopicRootState {
     topics: Topic[];
@@ -50,6 +51,52 @@ export const useTopicStore = defineStore(Stores.Topic, {
                 }
             } else {
                 // todo propbably request from backend
+            }
+        },
+
+        async addTask(sectionId: string, sheetId: number, id?: string) {
+            const services = useServiceStore();
+            const taskStore = useTaskStore();
+            const task = taskStore.tasks.find((t) => t.properties.sheetId === sheetId);
+            if (!task || !this.topic) {
+                return;
+            }
+            const sections = this.topic.sections.map((s) => {
+                if (s._id === sectionId) {
+                    s.tasks?.push(task);
+                }
+                return s;
+            });
+            try {
+                const updatedTopic = await services.topicService.update(this.topic._id, {
+                    sections,
+                } as UpdateTopicDto);
+                this.topic.sections = updatedTopic.sections;
+                return updatedTopic;
+            } catch (e) {
+                console.error(e);
+            }
+        },
+
+        async removeTask(sectionId: string, index: number, id?: string) {
+            const services = useServiceStore();
+            if (!this.topic) {
+                return;
+            }
+            const sections = this.topic.sections.map((s) => {
+                if (s._id === sectionId) {
+                    s?.tasks?.splice(index, 1);
+                }
+                return s;
+            });
+            try {
+                const updatedTopic = await services.topicService.update(this.topic._id, {
+                    sections,
+                } as UpdateTopicDto);
+                this.topic.sections = updatedTopic.sections;
+                return updatedTopic;
+            } catch (e) {
+                console.error(e);
             }
         },
 
