@@ -8,6 +8,9 @@ interface Props {
 }
 
 const props = defineProps<Props>();
+const emit = defineEmits<{
+    (e: 'remove', id: number): void;
+}>();
 </script>
 
 <template>
@@ -17,19 +20,14 @@ const props = defineProps<Props>();
                 <NIcon :component="Edit" />
             </NAvatar>
         </template>
-        <template #header>Задача</template>
+        <template #header>{{ props.task?.properties?.title }}</template>
         <template #header-extra>
-            <NButton circle size="small">
+            <NButton circle size="small" @click="emit('remove', props.task.properties.sheetId)">
                 <template #icon>
                     <Trash />
                 </template>
             </NButton>
         </template>
-        <template #description>Описание</template>
-
-        <NEllipsis expand-trigger="click" line-clamp="1" :tooltip="false">
-            {{ props.task?.description }}
-        </NEllipsis>
     </NThing>
 </template>
 

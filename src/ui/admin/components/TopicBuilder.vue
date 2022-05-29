@@ -3,19 +3,18 @@ import { TopicSectionType } from '@/models/topic/TopicSection';
 import { useTopicStore } from '@/stores/TopicStore';
 import { RouteNames } from '@/ui/router';
 import { Book, ChartArcs, TestPipe } from '@vicons/tabler';
-import { NButton, NIcon, NModal, NPageHeader, NSpace } from 'naive-ui';
+import { NButton, NIcon, NPageHeader, NSpace } from 'naive-ui';
 import { storeToRefs } from 'pinia';
-import { onMounted, ref } from 'vue';
+import { onMounted } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import EditableHeader from './EditableHeader.vue';
-import TaskForm from './TaskForm.vue';
-import TopicSectionBuilder from './TopicSectionBuilder.vue';
+import TaskSection from './TaskSection.vue';
+import TheorySection from './TheorySection.vue';
 
 const topicStore = useTopicStore();
 const { topic } = storeToRefs(topicStore);
 const route = useRoute();
 const router = useRouter();
-let showModal = ref(false);
 
 onMounted(() => {
     const topicId = route.params['id'];
@@ -24,12 +23,6 @@ onMounted(() => {
 
 const addSection = (type: TopicSectionType) => {
     topicStore.addSection(topic.value?._id as string, type);
-};
-
-const createTask = (task: any): void => {
-    // todo: реализовать сервис, добавить интерфейс
-    console.log('createTask');
-    showModal.value = false;
 };
 
 const changeTitle = (title: string): void => {
@@ -49,10 +42,16 @@ const handleBack = () => {
     </NPageHeader>
 
     <template v-for="section of topic?.sections" :key="section.id">
-        <TopicSectionBuilder :section="section"></TopicSectionBuilder>
+        <TaskSection
+            v-if="
+                section.type === TopicSectionType.Training || section.type === TopicSectionType.Test
+            "
+            :section="section"
+        />
+        <TheorySection v-else :section="section" />
     </template>
     <NSpace>
-        <NButton size="large" secondary type="warning" @click="addSection(TopicSectionType.THEORY)">
+        <NButton size="large" secondary type="warning" @click="addSection(TopicSectionType.Theory)">
             <template #icon>
                 <NIcon :component="Book" />
             </template>
@@ -62,27 +61,20 @@ const handleBack = () => {
             size="large"
             secondary
             type="success"
-            @click="addSection(TopicSectionType.TRAINING)"
+            @click="addSection(TopicSectionType.Training)"
         >
             <template #icon>
                 <NIcon :component="ChartArcs" />
             </template>
             Добавить тренажер
         </NButton>
-        <NButton size="large" secondary type="error" @click="addSection(TopicSectionType.TEST)">
+        <NButton size="large" secondary type="error" @click="addSection(TopicSectionType.Test)">
             <template #icon>
                 <NIcon :component="TestPipe" />
             </template>
             Добавить контрольную
         </NButton>
     </NSpace>
-
-    <n-modal v-model:show="showModal" preset="dialog">
-        <template #header>
-            <div>Создать задачу</div>
-        </template>
-        <TaskForm @save="createTask($event)" @close="showModal = false" />
-    </n-modal>
 </template>
 
 <style scoped lang="scss">

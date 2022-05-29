@@ -2,9 +2,9 @@ import type { Task } from '../task/Task';
 import type { Theory } from '../theory/Theory';
 
 export enum TopicSectionType {
-    THEORY = 'theory',
-    TRAINING = 'training',
-    TEST = 'test',
+    Theory = 'theory',
+    Training = 'training',
+    Test = 'test',
 }
 
 export interface TopicSection {
