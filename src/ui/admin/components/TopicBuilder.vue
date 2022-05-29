@@ -5,13 +5,16 @@ import { Book, ChartArcs, TestPipe } from '@vicons/tabler';
 import { onMounted, ref } from 'vue';
 import { useTopicStore } from '@/stores/TopicStore';
 import { storeToRefs } from 'pinia';
-import { useRoute } from 'vue-router';
+import { useRoute, useRouter } from 'vue-router';
 import TaskForm from './TaskForm.vue';
+import type { TopicSection } from '@/models/topic/TopicSection';
 
 const topicStore = useTopicStore();
 const { topic } = storeToRefs(topicStore);
 const route = useRoute();
+const router = useRouter();
 let showModal = ref(false);
+let showTheoryForm = ref(false);
 
 onMounted(() => {
     const topicId = route.params['id'];
@@ -23,11 +26,22 @@ const createTask = (task: any): void => {
     console.log('createTask');
     showModal.value = false;
 };
+
+const navigateToForm = (section: TopicSection): void => {
+    switch (section.type) {
+        case 'theory':
+            router.push({ name: 'theory-form' });
+            break;
+    }
+};
 </script>
 
 <template>
     <template v-for="section of topic?.sections" :key="section.id">
-        <TopicSectionBuilder :section="section"></TopicSectionBuilder>
+        <TopicSectionBuilder
+            :section="section"
+            @add="navigateToForm(section)"
+        ></TopicSectionBuilder>
     </template>
     <NSpace>
         <NButton size="large" secondary type="warning">

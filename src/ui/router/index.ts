@@ -19,6 +19,11 @@ const router = createRouter({
             name: 'topic-builder',
             component: () => import('../admin/views/TopicBuilder.vue'),
         },
+        {
+            path: '/theory-form',
+            name: 'theory-form',
+            component: () => import('../admin/components/TheoryForm.vue'),
+        },
     ],
 });
 
