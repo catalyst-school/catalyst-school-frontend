@@ -102,14 +102,14 @@ export const useGoalStore = defineStore(Stores.Goal, {
             }
         },
 
-        // async getById(id: string) {
-        //     const services = useServiceStore();
-        //     try {
-        //         this.topic = await services.topicService.getById(id);
-        //     } catch (e) {
-        //         console.error(e);
-        //     }
-        // },
+        async getById(id: string) {
+            const services = useServiceStore();
+            try {
+                this.goal = await services.goalService.getById(id);
+            } catch (e) {
+                console.error(e);
+            }
+        },
 
         // async remove(id: string) {
         //     const services = useServiceStore();

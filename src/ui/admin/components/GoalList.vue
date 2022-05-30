@@ -20,7 +20,7 @@ onMounted(async () => {
 });
 
 const editGoal = (id: string) => {
-    // router.push({ name: RouteNames.AdminTopicBuilder, params: { id } });
+    router.push({ name: RouteNames.AdminGoalBuilder, params: { id } });
 };
 
 const removeGoal = (id: string) => {
