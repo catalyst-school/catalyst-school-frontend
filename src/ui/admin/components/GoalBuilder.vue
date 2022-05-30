@@ -18,7 +18,7 @@ onMounted(() => {
 });
 
 const changeTitle = (title: string): void => {
-    goalStore.updateTitle(goal.value?._id as string, title);
+    goalStore.updateTitle(title);
 };
 
 const handleBack = () => {
