@@ -1,14 +1,11 @@
 <script setup lang="ts">
 import type { Goal } from '@/models/goal/Goal';
-import type { Topic } from '@/models/topic/Topic';
-import { TopicSectionType } from '@/models/topic/TopicSection';
 import { useGoalStore } from '@/stores/GoalStore';
-import { useTopicStore } from '@/stores/TopicStore';
 import { RouteNames } from '@/ui/router';
 import { Plus, Trash } from '@vicons/tabler';
 import { NButton, NList, NListItem, NSpace, NThing } from 'naive-ui';
 import { storeToRefs } from 'pinia';
-import { onMounted, computed } from 'vue';
+import { computed, onMounted } from 'vue';
 import { useRouter } from 'vue-router';
 
 const goalStore = useGoalStore();
@@ -24,29 +21,18 @@ const editGoal = (id: string) => {
 };
 
 const removeGoal = (id: string) => {
-    // goalStore.remove(id);
+    goalStore.remove(id);
 };
 
 const createGoal = async () => {
-    // const newTopic = await goalStore.create({ title: 'Без названия', sections: [] });
-    // if (newTopic) {
-    //     editTopic(newTopic._id);
-    // }
+    const newGoal = await goalStore.create({ title: 'Без названия', topics: [] });
+    if (newGoal) {
+        editGoal(newGoal._id);
+    }
 };
 
 const description = computed(() => {
-    return (goal: Goal) => {
-        let result = `Разделов: ${goal?.topics?.length}. `;
-        // const theories = topic.sections.filter((s) => s.type === TopicSectionType.Theory).length;
-        // const trainings = topic.sections.filter((s) => s.type === TopicSectionType.Training).length;
-        // const tests = topic.sections.filter((s) => s.type === TopicSectionType.Test).length;
-
-        // result += theories ? `Теорий - ${theories}. ` : '';
-        // result += trainings ? `Тренажёров - ${trainings}. ` : '';
-        // result += tests ? `Контрольных - ${tests}. ` : '';
-
-        return result;
-    };
+    return (goal: Goal) => `Тем: ${goal?.topics?.length}`;
 });
 </script>
 

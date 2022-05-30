@@ -1,3 +1,5 @@
+import type { CreateGoalDto } from '@/models/goal/dto/CreateGoalDto';
+import type { UpdateGoalDto } from '@/models/goal/dto/UpdateGoalDto';
 import type { Goal } from '@/models/goal/Goal';
 import { defineStore } from 'pinia';
 import { useServiceStore } from './ServiceStore';
@@ -68,30 +70,30 @@ export const useGoalStore = defineStore(Stores.Goal, {
         //     }
         // },
 
-        // async create(topic: CreateTopicDto) {
-        //     const services = useServiceStore();
-        //     try {
-        //         const newTopic = await services.topicService.create(topic);
-        //         this.topics.push(newTopic);
-        //         return newTopic;
-        //     } catch (e) {
-        //         console.error(e);
-        //     }
-        // },
+        async create(goal: CreateGoalDto) {
+            const services = useServiceStore();
+            try {
+                const newGoal = await services.goalService.create(goal);
+                this.goals.push(newGoal);
+                return newGoal;
+            } catch (e) {
+                console.error(e);
+            }
+        },
 
-        // async update(id: string, topic: UpdateTopicDto) {
-        //     const services = useServiceStore();
-        //     try {
-        //         this.topic = null;
-        //         const updatedTopic = await services.topicService.update(id, topic);
-        //         const index = this.topics.findIndex((t) => t._id === id);
-        //         this.topics[index] = updatedTopic;
-        //         this.topic = updatedTopic;
-        //         return updatedTopic;
-        //     } catch (e) {
-        //         console.error(e);
-        //     }
-        // },
+        async update(id: string, goal: UpdateGoalDto) {
+            const services = useServiceStore();
+            try {
+                this.goal = null;
+                const updated = await services.goalService.update(id, goal);
+                const index = this.goals.findIndex((t) => t._id === id);
+                this.goals[index] = updated;
+                this.goal = updated;
+                return updated;
+            } catch (e) {
+                console.error(e);
+            }
+        },
 
         async getAll() {
             const services = useServiceStore();
@@ -111,14 +113,14 @@ export const useGoalStore = defineStore(Stores.Goal, {
             }
         },
 
-        // async remove(id: string) {
-        //     const services = useServiceStore();
-        //     try {
-        //         await services.topicService.remove(id);
-        //         this.topics = this.topics.filter((t) => t._id !== id);
-        //     } catch (e) {
-        //         console.error(e);
-        //     }
-        // },
+        async remove(id: string) {
+            const services = useServiceStore();
+            try {
+                await services.goalService.remove(id);
+                this.goals = this.goals.filter((t) => t._id !== id);
+            } catch (e) {
+                console.error(e);
+            }
+        },
     },
 });
