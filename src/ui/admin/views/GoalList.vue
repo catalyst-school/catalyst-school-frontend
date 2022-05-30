@@ -1,3 +1,7 @@
-<script setup lang="ts"></script>
+<script setup lang="ts">
+import GoalList from '../components/GoalList.vue';
+</script>
 
-<template>Тут будет список целей</template>
+<template>
+    <GoalList />
+</template>
