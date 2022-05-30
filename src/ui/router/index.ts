@@ -3,6 +3,7 @@ export enum RouteNames {
     Main = 'main',
     Admin = 'admin',
     AdminTopicList = 'admin-topic-list',
+    AdminGoalList = 'admin-goal-list',
     AdminTopicBuilder = 'admin-topic-builder',
 }
 
@@ -23,6 +24,11 @@ const router = createRouter({
                     path: 'topic-list',
                     name: RouteNames.AdminTopicList,
                     component: () => import('../admin/views/TopicList.vue'),
+                },
+                {
+                    path: 'goal-list',
+                    name: RouteNames.AdminGoalList,
+                    component: () => import('../admin/views/GoalList.vue'),
                 },
                 {
                     path: 'topic-builder/:id',

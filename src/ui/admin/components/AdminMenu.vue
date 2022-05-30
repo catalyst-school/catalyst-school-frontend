@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { RouteNames } from '@/ui/router';
-import { Home, Crane } from '@vicons/tabler';
+import { Home, Subtask, Target } from '@vicons/tabler';
 import { NIcon, type MenuOption, NMenu } from 'naive-ui';
 import { type Component, h, ref, watch } from 'vue';
 import { RouterLink, useRoute } from 'vue-router';
@@ -20,11 +20,21 @@ const menuOptions: MenuOption[] = [
         label: () =>
             h(
                 RouterLink,
+                { to: { name: RouteNames.AdminGoalList } },
+                { default: () => 'Конструктор целей' },
+            ),
+        key: RouteNames.AdminGoalList,
+        icon: renderIcon(Target),
+    },
+    {
+        label: () =>
+            h(
+                RouterLink,
                 { to: { name: RouteNames.AdminTopicList } },
                 { default: () => 'Конструктор тем' },
             ),
         key: RouteNames.AdminTopicList,
-        icon: renderIcon(Crane),
+        icon: renderIcon(Subtask),
     },
 ];
 
