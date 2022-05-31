@@ -1,10 +1,12 @@
 <script setup lang="ts">
+import type { Topic } from '@/models/topic/Topic';
+import { TopicSectionType } from '@/models/topic/TopicSection';
 import { useTopicStore } from '@/stores/TopicStore';
 import { RouteNames } from '@/ui/router';
 import { Plus, Trash } from '@vicons/tabler';
 import { NButton, NList, NListItem, NSpace, NThing } from 'naive-ui';
 import { storeToRefs } from 'pinia';
-import { onMounted } from 'vue';
+import { onMounted, computed } from 'vue';
 import { useRouter } from 'vue-router';
 
 const topicStore = useTopicStore();
@@ -29,6 +31,21 @@ const createTopic = async () => {
         editTopic(newTopic._id);
     }
 };
+
+const description = computed(() => {
+    return (topic: Topic) => {
+        let result = `Разделов: ${topic.sections.length}. `;
+        const theories = topic.sections.filter((s) => s.type === TopicSectionType.Theory).length;
+        const trainings = topic.sections.filter((s) => s.type === TopicSectionType.Training).length;
+        const tests = topic.sections.filter((s) => s.type === TopicSectionType.Test).length;
+
+        result += theories ? `Теорий - ${theories}. ` : '';
+        result += trainings ? `Тренажёров - ${trainings}. ` : '';
+        result += tests ? `Контрольных - ${tests}. ` : '';
+
+        return result;
+    };
+});
 </script>
 
 <template>
@@ -46,7 +63,7 @@ const createTopic = async () => {
             class="list-item"
             @click="editTopic(topic._id)"
         >
-            <NThing :title="topic.title"> </NThing>
+            <NThing :title="topic.title">{{ description(topic) }}</NThing>
             <template #suffix>
                 <NSpace>
                     <NButton type="error" round @click.stop="removeTopic(topic._id)">

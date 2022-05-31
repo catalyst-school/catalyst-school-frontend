@@ -1,3 +1,4 @@
+import { GoalService } from '@/services/GoalService';
 import { TaskService } from '@/services/TaskService';
 import { TopicService } from '@/services/TopicService';
 import { defineStore } from 'pinia';
@@ -7,5 +8,6 @@ export const useServiceStore = defineStore(Stores.Service, {
     state: () => ({
         topicService: new TopicService(),
         taskService: new TaskService(),
+        goalService: new GoalService(),
     }),
 });
