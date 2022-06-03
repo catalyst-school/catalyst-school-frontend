@@ -154,5 +154,22 @@ export const useGoalStore = defineStore(Stores.Goal, {
                 console.warn('No Goal id is provided');
             }
         },
+
+        async saveTopicOrder() {
+            const services = useServiceStore();
+            if (this.goal) {
+                try {
+                    const updated = await services.goalService.update(this.goal._id, {
+                        topics: this.goal.topics?.map((t) => t._id),
+                    });
+                    this.goal.topics = updated.topics;
+                    return updated;
+                } catch (e) {
+                    console.error(e);
+                }
+            } else {
+                console.warn('No Goal id is provided');
+            }
+        },
     },
 });
