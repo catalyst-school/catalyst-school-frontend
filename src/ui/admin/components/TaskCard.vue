@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import { NThing, NAvatar, NIcon, NEllipsis, NButton } from 'naive-ui';
-import { Edit, Trash } from '@vicons/tabler';
 import type { Task } from '@/models/task/Task';
+import { Trash } from '@vicons/tabler';
+import { NButton, NThing } from 'naive-ui';
 
 interface Props {
     task: Task;
@@ -15,11 +15,6 @@ const emit = defineEmits<{
 
 <template>
     <NThing content-indented class="unit">
-        <template #avatar>
-            <NAvatar class="avatar">
-                <NIcon :component="Edit" />
-            </NAvatar>
-        </template>
         <template #header>{{ props.task?.properties?.title }}</template>
         <template #header-extra>
             <NButton circle size="small" @click="emit('remove', props.task.properties.sheetId)">
