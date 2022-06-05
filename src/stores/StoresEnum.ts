@@ -3,4 +3,5 @@ export enum Stores {
     Topic = 'topic',
     Task = 'task',
     Goal = 'goal',
+    Theory = 'theory',
 }

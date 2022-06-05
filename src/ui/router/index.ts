@@ -4,6 +4,8 @@ export enum RouteNames {
     Admin = 'admin',
     AdminTopicList = 'admin-topic-list',
     AdminTopicBuilder = 'admin-topic-builder',
+    CreateTheoryForm = 'admin-create-theory-form',
+    UpdateTheoryForm = 'admin-update-theory-form',
     AdminGoalList = 'admin-goal-list',
     AdminGoalBuilder = 'admin-goal-builder',
 }
@@ -40,6 +42,16 @@ const router = createRouter({
                     path: 'goal-list/:id',
                     name: RouteNames.AdminGoalBuilder,
                     component: () => import('../admin/views/GoalBuilder.vue'),
+                },
+                {
+                    path: 'theory',
+                    name: RouteNames.CreateTheoryForm,
+                    component: () => import('../admin/views/CreateTheory.vue'),
+                },
+                {
+                    path: 'theory/:id',
+                    name: RouteNames.UpdateTheoryForm,
+                    component: () => import('../admin/views/UpdateTheory.vue'),
                 },
             ],
         },

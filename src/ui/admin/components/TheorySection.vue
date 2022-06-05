@@ -14,6 +14,10 @@ interface Props {
 const topicStore = useTopicStore();
 const { topic } = storeToRefs(topicStore);
 
+const emit = defineEmits<{
+    (e: 'add'): void;
+    (e: 'select'): void;
+}>();
 const props = defineProps<Props>();
 const removeSection = () => {
     if (topic.value) topicStore.removeSection(topic.value._id, props.section._id);
@@ -42,11 +46,11 @@ const removeSection = () => {
 
         <template #footer>
             <NSpace>
-                <NButton dashed type="warning" @click="$emit('add')">
+                <NButton dashed type="warning" @click="emit('add')">
                     <template #icon><Plus /></template>
                     Добавить новую
                 </NButton>
-                <NButton dashed type="warning">
+                <NButton dashed type="warning" @click="emit('select')">
                     <template #icon><List /></template>
                     Выбрать существующую
                 </NButton>

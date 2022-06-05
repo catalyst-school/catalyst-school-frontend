@@ -21,6 +21,14 @@ onMounted(() => {
     topicStore.getById(topicId as string);
 });
 
+const navigateToForm = (): void => {
+    router.push({ name: RouteNames.CreateTheoryForm });
+};
+
+const selectTheory = () => {
+    //todo: сделать выбор теории
+};
+
 const addSection = (type: TopicSectionType) => {
     topicStore.addSection(topic.value?._id as string, type);
 };
@@ -48,14 +56,14 @@ const handleBack = () => {
             "
             :section="section"
         />
-        <TheorySection v-else :section="section" />
+        <TheorySection v-else :section="section" @add="navigateToForm()" @select="selectTheory()" />
     </template>
     <NSpace>
         <NButton size="large" secondary type="warning" @click="addSection(TopicSectionType.Theory)">
             <template #icon>
                 <NIcon :component="Book" />
             </template>
-            Добавить раздел теории
+            Добавить теорию
         </NButton>
         <NButton
             size="large"
