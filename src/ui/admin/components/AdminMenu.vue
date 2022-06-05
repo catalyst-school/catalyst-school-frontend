@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { RouteNames } from '@/ui/router';
-import { Home, Subtask, Target } from '@vicons/tabler';
+import { Home, Books, Target } from '@vicons/tabler';
 import { NIcon, type MenuOption, NMenu } from 'naive-ui';
 import { type Component, h, ref, watch } from 'vue';
 import { RouterLink, useRoute } from 'vue-router';
@@ -34,7 +34,7 @@ const menuOptions: MenuOption[] = [
                 { default: () => 'Конструктор тем' },
             ),
         key: RouteNames.AdminTopicList,
-        icon: renderIcon(Subtask),
+        icon: renderIcon(Books),
     },
 ];
 

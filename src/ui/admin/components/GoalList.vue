@@ -2,8 +2,8 @@
 import type { Goal } from '@/models/goal/Goal';
 import { useGoalStore } from '@/stores/GoalStore';
 import { RouteNames } from '@/ui/router';
-import { Plus, Trash } from '@vicons/tabler';
-import { NButton, NList, NListItem, NSpace, NThing } from 'naive-ui';
+import { Plus, Trash, Target } from '@vicons/tabler';
+import { NButton, NList, NListItem, NSpace, NThing, NAvatar, NIcon } from 'naive-ui';
 import { storeToRefs } from 'pinia';
 import { computed, onMounted } from 'vue';
 import { useRouter } from 'vue-router';
@@ -51,7 +51,16 @@ const description = computed(() => {
             class="list-item"
             @click="editGoal(goal._id)"
         >
-            <NThing :title="goal.title">{{ description(goal) }}</NThing>
+            <NThing :title="goal.title" content-indented>
+                <template #avatar>
+                    <n-avatar :style="{ background: 'white' }">
+                        <n-icon color="black">
+                            <Target />
+                        </n-icon>
+                    </n-avatar>
+                </template>
+                {{ description(goal) }}
+            </NThing>
             <template #suffix>
                 <NSpace>
                     <NButton type="error" round @click.stop="removeGoal(goal._id)">

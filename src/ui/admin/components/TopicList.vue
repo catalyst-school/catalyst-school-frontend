@@ -3,8 +3,8 @@ import type { Topic } from '@/models/topic/Topic';
 import { TopicSectionType } from '@/models/topic/TopicSection';
 import { useTopicStore } from '@/stores/TopicStore';
 import { RouteNames } from '@/ui/router';
-import { Plus, Trash } from '@vicons/tabler';
-import { NButton, NList, NListItem, NSpace, NThing } from 'naive-ui';
+import { Plus, Trash, Books } from '@vicons/tabler';
+import { NButton, NList, NListItem, NSpace, NThing, NAvatar, NIcon } from 'naive-ui';
 import { storeToRefs } from 'pinia';
 import { onMounted, computed } from 'vue';
 import { useRouter } from 'vue-router';
@@ -63,7 +63,16 @@ const description = computed(() => {
             class="list-item"
             @click="editTopic(topic._id)"
         >
-            <NThing :title="topic.title">{{ description(topic) }}</NThing>
+            <NThing :title="topic.title" content-indented>
+                <template #avatar>
+                    <n-avatar :style="{ background: 'white' }">
+                        <n-icon color="black">
+                            <Books />
+                        </n-icon>
+                    </n-avatar>
+                </template>
+                {{ description(topic) }}
+            </NThing>
             <template #suffix>
                 <NSpace>
                     <NButton type="error" round @click.stop="removeTopic(topic._id)">

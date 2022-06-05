@@ -1,8 +1,8 @@
 <script lang="ts" setup>
 import type { TopicSection } from '@/models/topic/TopicSection';
 import { useTopicStore } from '@/stores/TopicStore';
-import { Briefcase, List, Plus, Trash } from '@vicons/tabler';
-import { NAvatar, NButton, NGi, NGrid, NSpace, NThing, NIcon } from 'naive-ui';
+import { List, Plus, Trash } from '@vicons/tabler';
+import { NButton, NGi, NGrid, NSpace, NThing } from 'naive-ui';
 import { storeToRefs } from 'pinia';
 import { defineProps } from 'vue';
 import TheoryCard from './TheoryCard.vue';
@@ -26,13 +26,6 @@ const removeSection = () => {
 
 <template>
     <NThing content-indented class="section" :class="props.section.type">
-        <template #avatar>
-            <NAvatar :style="{ backgroundColor: '#f0a020' }">
-                <NIcon>
-                    <Briefcase />
-                </NIcon>
-            </NAvatar>
-        </template>
         <template #header>Теория</template>
         <template #header-extra>
             <NButton circle strong secondary type="error" @click="removeSection">
