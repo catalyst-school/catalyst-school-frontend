@@ -6,6 +6,7 @@ import { defineStore } from 'pinia';
 import { useServiceStore } from './ServiceStore';
 import { Stores } from './StoresEnum';
 import { useTaskStore } from './TaskStore';
+import { useTheoryStore } from './TheoryStore';
 
 interface TopicRootState {
     topics: Topic[];
@@ -51,6 +52,59 @@ export const useTopicStore = defineStore(Stores.Topic, {
                 }
             } else {
                 // todo propbably request from backend
+            }
+        },
+
+        async addTheory(sectionId: string, theoryid: string) {
+            const services = useServiceStore();
+            const theoryStore = useTheoryStore();
+
+            const theory = theoryStore.theories.find((item) => item._id === theoryid);
+            if (!theory || !this.topic) {
+                return;
+            }
+
+            const sections = this.topic.sections.map((s) => {
+                if (s._id === sectionId) {
+                    s.theories?.push(theory);
+                }
+                return s;
+            });
+
+            try {
+                const updatedTopic = await services.topicService.update(this.topic._id, {
+                    sections,
+                } as UpdateTopicDto);
+                this.topic.sections = updatedTopic.sections;
+                return updatedTopic;
+            } catch (e) {
+                console.error(e);
+            }
+        },
+
+        async removeTheory(sectionId: string, theoryId: string) {
+            const services = useServiceStore();
+            if (!this.topic) {
+                return;
+            }
+            const sections = this.topic.sections.map((s) => {
+                if (s._id === sectionId) {
+                    s?.theories?.forEach((theory, i) => {
+                        if (theory._id === theoryId) {
+                            s?.theories?.splice(i, 1);
+                        }
+                    });
+                }
+                return s;
+            });
+            try {
+                const updatedTopic = await services.topicService.update(this.topic._id, {
+                    sections,
+                } as UpdateTopicDto);
+                this.topic.sections = updatedTopic.sections;
+                return updatedTopic;
+            } catch (e) {
+                console.error(e);
             }
         },
 
