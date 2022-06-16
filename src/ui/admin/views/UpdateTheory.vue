@@ -1,5 +1,5 @@
 <template>
-    <TheoryForm v-if="theory" :data="theory" @save="create($event)" @cancel="navigate()" />
+    <TheoryForm v-if="theory" :data="theory" @save="update($event)" @cancel="navigate()" />
 </template>
 <script setup lang="ts">
 import type { CreateTheoryDto } from '@/models/theory/dto/CreateTheoryDto';
@@ -8,24 +8,33 @@ import { onMounted } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import TheoryForm from '../components/TheoryForm.vue';
 import { storeToRefs } from 'pinia';
-import { RouteNames } from '@/ui/router';
 import type { UpdateTheoryDto } from '@/models/theory/dto/UpdateTheoryDto';
+import { RouteNames } from '@/ui/router';
 
 const theoryStore = useTheoryStore();
 const route = useRoute();
 const router = useRouter();
 const { theory } = storeToRefs(theoryStore);
 
-onMounted(async () => {
-    const theoryId = route.params['id'];
-    await theoryStore.getById(theoryId as string);
+const topicId = route.query.topicId as string;
+
+let theoryId: string;
+
+onMounted(async (): Promise<void> => {
+    theoryId = route.params['id'] as string;
+    await theoryStore.getById(theoryId);
 });
 
 const navigate = (): void => {
-    router.push({ name: RouteNames.AdminTopicList });
+    if (topicId) {
+        router.push({ name: RouteNames.AdminTopicBuilder, params: { id: topicId } });
+    } else {
+        router.push({ name: RouteNames.AdminTopicList });
+    }
 };
 
-const create = (data: CreateTheoryDto | UpdateTheoryDto): void => {
-    theoryStore.create({ title: data.title, content: data.content || '' });
+const update = async (data: CreateTheoryDto | UpdateTheoryDto): Promise<void> => {
+    await theoryStore.update(theoryId, { title: data.title, content: data.content || '' });
+    navigate();
 };
 </script>

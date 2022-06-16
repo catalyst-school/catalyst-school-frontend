@@ -48,7 +48,7 @@ const emit = defineEmits<{
     (e: 'cancel'): void;
 }>();
 
-onMounted(() => {
+onMounted((): void => {
     editor = new Quill('#editor', {
         modules: {
             toolbar: toolbarOptions,
@@ -64,7 +64,7 @@ onMounted(() => {
     }
 });
 
-const save = async () => {
+const save = (): void => {
     const content = JSON.stringify(editor.getContents());
     emit('save', { title: title.value, content: content });
 };

@@ -1,26 +1,56 @@
+c
 <script lang="ts" setup>
 import type { TopicSection } from '@/models/topic/TopicSection';
 import { useTopicStore } from '@/stores/TopicStore';
+import { useTheoryStore } from '@/stores/TheoryStore';
 import { List, Plus, Trash } from '@vicons/tabler';
-import { NButton, NGi, NGrid, NSpace, NThing } from 'naive-ui';
+import { NButton, NGi, NGrid, NSpace, NThing, NDropdown } from 'naive-ui';
 import { storeToRefs } from 'pinia';
-import { defineProps } from 'vue';
+import { defineProps, onMounted, ref, computed, type ComputedRef } from 'vue';
 import TheoryCard from './TheoryCard.vue';
+import type { Theory } from '@/models/theory/Theory';
 
 interface Props {
     section: TopicSection;
 }
 
-const topicStore = useTopicStore();
-const { topic } = storeToRefs(topicStore);
-
-const emit = defineEmits<{
+interface Emits {
     (e: 'add'): void;
-    (e: 'select'): void;
-}>();
+    (e: 'select', theory: Theory): void;
+    (e: 'edit', theoryId: string): void;
+}
+
 const props = defineProps<Props>();
-const removeSection = () => {
-    if (topic.value) topicStore.removeSection(topic.value._id, props.section._id);
+
+const emit = defineEmits<Emits>();
+
+const topicStore = useTopicStore();
+const theoryStore = useTheoryStore();
+const { topic } = storeToRefs(topicStore);
+const { theories } = storeToRefs(theoryStore);
+
+const theoryOptions: ComputedRef<{ label: string; key: Theory }[]> = computed(() => {
+    return theories.value.map((item) => ({ label: item.title, key: item }));
+});
+
+onMounted(async () => {
+    await theoryStore.getAll();
+});
+
+const removeSection = (): void => {
+    if (topic.value) {
+        topicStore.removeSection(topic.value._id, props.section._id);
+    }
+};
+
+const removeTheory = (theoryId: string): void => {
+    if (theories.value.length) {
+        topicStore.removeTheory(props.section._id, theoryId);
+    }
+};
+
+const onSelect = (theory: Theory): void => {
+    emit('select', theory);
 };
 </script>
 
@@ -35,7 +65,11 @@ const removeSection = () => {
 
         <NGrid class="unit-list" x-gap="16" y-gap="16" :cols="4">
             <NGi v-for="theory of props.section.theories" :key="theory._id">
-                <TheoryCard :theory="theory" />
+                <TheoryCard
+                    :theory="theory"
+                    @edit="emit('edit', $event)"
+                    @remove="removeTheory($event)"
+                />
             </NGi>
         </NGrid>
 
@@ -45,10 +79,14 @@ const removeSection = () => {
                     <template #icon><Plus /></template>
                     Добавить новую
                 </NButton>
-                <NButton dashed type="warning" @click="emit('select')">
-                    <template #icon><List /></template>
-                    Выбрать существующую
-                </NButton>
+                <n-dropdown trigger="click" :options="theoryOptions" @select="onSelect($event)">
+                    <n-button dashed type="warning">
+                        <template #icon>
+                            <List />
+                        </template>
+                        Выбрать существующую
+                    </n-button>
+                </n-dropdown>
             </NSpace>
         </template>
     </NThing>

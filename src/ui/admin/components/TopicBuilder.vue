@@ -10,26 +10,35 @@ import { useRoute, useRouter } from 'vue-router';
 import EditableHeader from './EditableHeader.vue';
 import TaskSection from './TaskSection.vue';
 import TheorySection from './TheorySection.vue';
+import type { Theory } from '@/models/theory/Theory';
 
 const topicStore = useTopicStore();
 const { topic } = storeToRefs(topicStore);
 const route = useRoute();
 const router = useRouter();
+const topicId = route.params['id'] as string;
 
 onMounted(() => {
-    const topicId = route.params['id'];
-    topicStore.getById(topicId as string);
+    topicStore.getById(topicId);
 });
 
-const navigateToForm = (): void => {
-    router.push({ name: RouteNames.CreateTheoryForm });
+const navigateToCreateForm = (sectionId: string): void => {
+    router.push({ name: RouteNames.CreateTheoryForm, query: { topicId, sectionId } });
 };
 
-const selectTheory = () => {
-    //todo: сделать выбор теории
+const navigateToEditForm = (theoryId: string): void => {
+    router.push({
+        name: RouteNames.UpdateTheoryForm,
+        params: { id: theoryId },
+        query: { topicId: route.params.id },
+    });
 };
 
-const addSection = (type: TopicSectionType) => {
+const selectTheory = (theory: Theory, sectionId: string) => {
+    topicStore.addTheory(sectionId, theory);
+};
+
+const addSection = (type: TopicSectionType): void => {
     topicStore.addSection(topic.value?._id as string, type);
 };
 
@@ -37,7 +46,7 @@ const changeTitle = (title: string): void => {
     topicStore.updateTitle(topic.value?._id as string, title);
 };
 
-const handleBack = () => {
+const handleBack = (): void => {
     router.push({ name: RouteNames.AdminTopicList });
 };
 </script>
@@ -56,7 +65,13 @@ const handleBack = () => {
             "
             :section="section"
         />
-        <TheorySection v-else :section="section" @add="navigateToForm()" @select="selectTheory()" />
+        <TheorySection
+            v-else
+            :section="section"
+            @add="navigateToCreateForm(section._id)"
+            @edit="navigateToEditForm($event)"
+            @select="selectTheory($event, section._id)"
+        />
     </template>
     <NSpace>
         <NButton size="large" secondary type="warning" @click="addSection(TopicSectionType.Theory)">

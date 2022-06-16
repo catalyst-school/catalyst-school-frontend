@@ -1,12 +1,13 @@
+import type { Theory } from '@/models/theory/Theory';
 import type { CreateTopicDto } from '@/models/topic/dto/CreateTopicDto';
 import type { UpdateTopicDto } from '@/models/topic/dto/UpdateTopicDto';
+import type { UpdateTopicSectionDto } from '@/models/topic/dto/UpdateTopicSectionDto';
 import type { Topic } from '@/models/topic/Topic';
-import type { TopicSectionType } from '@/models/topic/TopicSection';
+import type { TopicSection, TopicSectionType } from '@/models/topic/TopicSection';
 import { defineStore } from 'pinia';
 import { useServiceStore } from './ServiceStore';
 import { Stores } from './StoresEnum';
 import { useTaskStore } from './TaskStore';
-import { useTheoryStore } from './TheoryStore';
 
 interface TopicRootState {
     topics: Topic[];
@@ -55,12 +56,10 @@ export const useTopicStore = defineStore(Stores.Topic, {
             }
         },
 
-        async addTheory(sectionId: string, theoryid: string) {
+        async addTheory(sectionId: string, theory: Theory): Promise<Topic | undefined> {
             const services = useServiceStore();
-            const theoryStore = useTheoryStore();
 
-            const theory = theoryStore.theories.find((item) => item._id === theoryid);
-            if (!theory || !this.topic) {
+            if (!this.topic) {
                 return;
             }
 
@@ -73,8 +72,8 @@ export const useTopicStore = defineStore(Stores.Topic, {
 
             try {
                 const updatedTopic = await services.topicService.update(this.topic._id, {
-                    sections,
-                } as UpdateTopicDto);
+                    sections: transformSectionToDto(sections),
+                });
                 this.topic.sections = updatedTopic.sections;
                 return updatedTopic;
             } catch (e) {
@@ -108,7 +107,7 @@ export const useTopicStore = defineStore(Stores.Topic, {
             }
         },
 
-        async addTask(sectionId: string, sheetId: number, id?: string) {
+        async addTask(sectionId: string, sheetId: number) {
             const services = useServiceStore();
             const taskStore = useTaskStore();
             const task = taskStore.tasks.find((t) => t.properties.sheetId === sheetId);
@@ -132,7 +131,7 @@ export const useTopicStore = defineStore(Stores.Topic, {
             }
         },
 
-        async removeTask(sectionId: string, index: number, id?: string) {
+        async removeTask(sectionId: string, index: number) {
             const services = useServiceStore();
             if (!this.topic) {
                 return;
@@ -226,3 +225,10 @@ export const useTopicStore = defineStore(Stores.Topic, {
         },
     },
 });
+
+function transformSectionToDto(sections: TopicSection[]): UpdateTopicSectionDto[] {
+    return sections.map((s) => {
+        const theories = s.theories?.map((t) => t._id);
+        return { type: s.type, theories, tasks: s.tasks };
+    });
+}
