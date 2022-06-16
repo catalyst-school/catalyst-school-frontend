@@ -29,8 +29,8 @@ const theoryStore = useTheoryStore();
 const { topic } = storeToRefs(topicStore);
 const { theories } = storeToRefs(theoryStore);
 
-const theoryOptions: ComputedRef<{ label: string; key: Theory }[]> = computed(() => {
-    return theories.value.map((item) => ({ label: item.title, key: item }));
+const theoryOptions: ComputedRef<{ label: string; key: Theory['_id'] }[]> = computed(() => {
+    return theories.value.map((item) => ({ label: item.title, key: item._id }));
 });
 
 onMounted(async () => {
@@ -49,8 +49,9 @@ const removeTheory = (theoryId: string): void => {
     }
 };
 
-const onSelect = (theory: Theory): void => {
-    emit('select', theory);
+const onSelect = (theoryId: Theory['_id']): void => {
+    const theory = theories.value.find((t) => t._id === theoryId);
+    theory ? emit('select', theory) : null;
 };
 </script>
 
