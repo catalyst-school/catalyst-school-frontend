@@ -30,7 +30,7 @@ const navigateToEditForm = (theoryId: string): void => {
     router.push({
         name: RouteNames.UpdateTheoryForm,
         params: { id: theoryId },
-        query: { topicId: route.params.id },
+        query: { topicId: topicId },
     });
 };
 
