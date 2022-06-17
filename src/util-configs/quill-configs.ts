@@ -1,7 +1,7 @@
 const collors = ['red', 'yellow', 'white', 'black', 'green', 'blue', 'brown'];
 
 export const imageEditOptions = {
-    modules: ['Resize', 'DisplaySize', 'Toolbar'],
+    modules: ['Resize', 'DisplaySize'],
 };
 
 export const toolbarOptions = [
