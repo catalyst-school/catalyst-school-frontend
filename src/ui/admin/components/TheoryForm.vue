@@ -59,7 +59,6 @@ onMounted((): void => {
     });
 
     if (props.theory) {
-        debugger;
         title.value = props.theory.title || '';
         editor.setContents(JSON.parse(props.theory.content));
     }
@@ -67,7 +66,6 @@ onMounted((): void => {
 
 const save = (): void => {
     const content = JSON.stringify(editor.getContents());
-    debugger;
     emit('save', { title: title.value, content: content });
 };
 
