@@ -36,7 +36,7 @@ import type { Theory } from '@/models/theory/Theory';
 import { toolbarOptions, imageEditOptions } from '@/util-configs/quill-configs';
 
 interface Props {
-    data?: Theory;
+    theory?: Theory | null;
 }
 
 let editor: Quill;
@@ -58,14 +58,16 @@ onMounted((): void => {
         theme: 'snow',
     });
 
-    if (props.data) {
-        title.value = props.data.title || '';
-        editor.setContents(JSON.parse(props.data.content));
+    if (props.theory) {
+        debugger;
+        title.value = props.theory.title || '';
+        editor.setContents(JSON.parse(props.theory.content));
     }
 });
 
 const save = (): void => {
     const content = JSON.stringify(editor.getContents());
+    debugger;
     emit('save', { title: title.value, content: content });
 };
 

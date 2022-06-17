@@ -1,5 +1,5 @@
 <template>
-    <TheoryForm v-if="theory" :data="theory" @save="update($event)" @cancel="navigate()" />
+    <TheoryForm v-if="theory" :theory="theory" @save="update($event)" @cancel="navigate()" />
 </template>
 <script setup lang="ts">
 import type { CreateTheoryDto } from '@/models/theory/dto/CreateTheoryDto';
@@ -26,6 +26,7 @@ onMounted(async (): Promise<void> => {
 });
 
 const navigate = (): void => {
+    _clearTeoryData();
     if (topicId) {
         router.push({ name: RouteNames.AdminTopicBuilder, params: { id: topicId } });
     } else {
@@ -35,6 +36,11 @@ const navigate = (): void => {
 
 const update = async (data: CreateTheoryDto | UpdateTheoryDto): Promise<void> => {
     await theoryStore.update(theoryId, { title: data.title, content: data.content || '' });
+    _clearTeoryData();
     navigate();
+};
+
+const _clearTeoryData = (): void => {
+    theory.value = null;
 };
 </script>
