@@ -1,4 +1,11 @@
 <template>
+    <ConfirmDialog
+        v-if="showConfirm"
+        :title="'Удалить?'"
+        :content="'Вы действительно хотите удалить?'"
+        :positive-text="'Да'"
+        :negative-text="'Нет'"
+    />
     <form class="form">
         <n-space>
             <n-button class="form__button" round type="primary" @click="save()">
@@ -10,6 +17,10 @@
             <n-button class="form__button" round @click="cancel()">
                 <template #icon><ArrowBack /></template>
                 В конструктор
+            </n-button>
+            <n-button class="form__button" round @click="showConfirm = true">
+                <template #icon><TrashX /></template>
+                Удалить
             </n-button>
         </n-space>
 
@@ -29,11 +40,12 @@
 import { onMounted, ref } from 'vue';
 import Quill from 'quill';
 import { NButton, NInput, NSpace } from 'naive-ui';
-import { Plus, ArrowBack } from '@vicons/tabler';
+import { Plus, ArrowBack, TrashX } from '@vicons/tabler';
 import type { UpdateTheoryDto } from '@/models/theory/dto/UpdateTheoryDto';
 import type { CreateTheoryDto } from '@/models/theory/dto/CreateTheoryDto';
 import type { Theory } from '@/models/theory/Theory';
 import { toolbarOptions, imageEditOptions } from '@/util-configs/quill-configs';
+import ConfirmDialog from '@/ui/main/components/ConfirmDialog.vue';
 
 interface Props {
     theory?: Theory | null;
@@ -41,6 +53,7 @@ interface Props {
 
 let editor: Quill;
 let title = ref('');
+let showConfirm = ref(false);
 
 const props = defineProps<Props>();
 const emit = defineEmits<{
