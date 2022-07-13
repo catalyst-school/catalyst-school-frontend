@@ -38,11 +38,9 @@ import {
 } from 'naive-ui';
 import { reactive, ref } from 'vue';
 import { emailRegExp } from '@/util-configs/Validathions';
+import type { LoginDto } from '@/models/auth/dto/LoginDto';
 
-export interface FormLoginData {
-    email: string;
-    password: string;
-}
+export type FormLoginData = LoginDto;
 
 const emit = defineEmits<{
     (e: 'signIn', data: FormLoginData): void;
