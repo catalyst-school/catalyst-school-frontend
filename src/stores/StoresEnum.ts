@@ -4,4 +4,5 @@ export enum Stores {
     Task = 'task',
     Goal = 'goal',
     Theory = 'theory',
+    Auth = 'auth',
 }
