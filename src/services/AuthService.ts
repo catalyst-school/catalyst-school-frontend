@@ -27,6 +27,14 @@ export class AuthService {
         await axios.post(`${API_URL}/auth/email/confirm`, null, { headers: authHeader(token) });
     }
 
+    async resetPassword(token: string, password: string): Promise<void> {
+        await axios.post(
+            `${API_URL}/auth/email/reset-password`,
+            { password },
+            { headers: authHeader(token) },
+        );
+    }
+
     logout(): void {
         localStorage.removeItem(UserConfig.token);
     }

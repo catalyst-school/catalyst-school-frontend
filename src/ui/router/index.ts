@@ -10,6 +10,7 @@ export enum RouteNames {
     AdminGoalBuilder = 'admin-goal-builder',
     Login = 'login',
     EmailConfirmation = 'email-confirmation',
+    ResetPassword = 'reset-password',
 }
 
 const router = createRouter({
@@ -63,9 +64,14 @@ const router = createRouter({
             component: () => import('../main/views/EmailConfirmation.vue'),
         },
         {
+            path: '/reset-password',
+            name: RouteNames.ResetPassword,
+            component: () => import('../main/views/ResetPassword.vue'),
+        },
+        {
             path: '/login',
             name: RouteNames.Login,
-            component: () => import('../main/views/Login.vue'),
+            component: () => import('../main/views/LoginView.vue'),
         },
     ],
 });

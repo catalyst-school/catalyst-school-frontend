@@ -117,6 +117,27 @@ export const useAuthStore = defineStore(Stores.Auth, {
                 text: 'email успешно подтвержден',
             };
         },
+        async resetPassword(token: string, password: string): Promise<Notification> {
+            const services = useServiceStore();
+
+            try {
+                await services.authService.resetPassword(token, password);
+            } catch (e) {
+                switch ((e as ApiError).response.status) {
+                    case 401:
+                    default:
+                        return {
+                            type: NotificationEnum.WARNING,
+                            text: SOME_ERROR,
+                        };
+                }
+            }
+
+            return {
+                type: NotificationEnum.SUCCESS,
+                text: 'Новый пароль установлен',
+            };
+        },
         logout(): void {
             const services = useServiceStore();
             services.authService.logout();

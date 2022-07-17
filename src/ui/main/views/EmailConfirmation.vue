@@ -9,6 +9,7 @@ import { useRoute, useRouter } from 'vue-router';
 import { NSpin, NResult } from 'naive-ui';
 import { useAuthStore } from '@/stores/AuthStore';
 import { RouteNames } from '@/ui/router';
+import { NotificationEnum } from '@/ui/shared/models/notification.enum';
 
 let loading = ref(true);
 let type = ref('');
@@ -23,13 +24,13 @@ onMounted(async () => {
     type.value = resp.type;
     text.value = resp.text;
 
-    if (type.value === 'success') {
+    if (type.value === NotificationEnum.SUCCESS) {
         setTimeout(() => router.push({ name: RouteNames.Main }), 3000);
     }
 });
 </script>
 <style>
 .wrap {
-    margin-top: 100px;
+    margin-top: 20vh;
 }
 </style>

@@ -12,7 +12,7 @@
         </n-form-item>
 
         <n-form-item label="Пароль" path="password">
-            <n-input v-model:value="modelSignIn.password" placeholder="" />
+            <n-input v-model:value="modelSignIn.password" type="password" placeholder="" />
         </n-form-item>
     </n-form>
     <n-space align="center">

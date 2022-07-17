@@ -4,10 +4,10 @@
             <n-input v-model:value="modelSignUp.email" placeholder="" />
         </n-form-item-row>
         <n-form-item-row label="Пароль" path="password">
-            <n-input v-model:value="modelSignUp.password" placeholder="" />
+            <n-input v-model:value="modelSignUp.password" type="password" placeholder="" />
         </n-form-item-row>
         <n-form-item-row label="Повторите пароль" path="reenterPassword">
-            <n-input v-model:value="modelSignUp.reenterPassword" placeholder="" />
+            <n-input v-model:value="modelSignUp.reenterPassword" type="password" placeholder="" />
         </n-form-item-row>
     </n-form>
     <n-space>
@@ -61,11 +61,11 @@ const rulesSignUp = {
             return isValid;
         },
         trigger: ['blur', 'input'],
-        message: `Должен быть не меньше 7 символов`,
+        message: `Должен быть не меньше 8 символов`,
     },
     reenterPassword: [
         {
-            validator: async (_: FormItemRule, value: string): Promise<boolean> => {
+            validator: (_: FormItemRule, value: string) => {
                 const isValid = modelSignUp.password === value;
                 return isValid;
             },
