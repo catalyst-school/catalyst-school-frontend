@@ -16,7 +16,7 @@ import { NotificationEnum } from '@/ui/shared/models/notification.enum';
 import { NResult, NSpin } from 'naive-ui';
 
 let loading = ref(false);
-let type = ref('');
+let type = ref();
 let text = ref('');
 const authStore = useAuthStore();
 const route = useRoute();

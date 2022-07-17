@@ -12,7 +12,7 @@ import { RouteNames } from '@/ui/router';
 import { NotificationEnum } from '@/ui/shared/models/notification.enum';
 
 let loading = ref(true);
-let type = ref('');
+let type = ref();
 let text = ref('');
 const route = useRoute();
 const router = useRouter();
