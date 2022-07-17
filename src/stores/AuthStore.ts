@@ -11,25 +11,31 @@ interface ApiError {
         status: number;
     };
 }
-
 interface Notification {
     type: NotificationEnum;
     text: string;
 }
 
+const SOME_ERROR = 'Произошла неизвестная ошибка, попробуйте позже';
+
 export const useAuthStore = defineStore(Stores.Auth, {
     actions: {
-        async login(data: LoginDto): Promise<Notification | undefined> {
+        async login(data: LoginDto): Promise<Notification> {
             const services = useServiceStore();
             try {
                 const userToken = await services.authService.login(data);
                 localStorage.setItem(UserConfig.token, userToken);
             } catch (e) {
                 switch ((e as ApiError).response.status) {
+                    case 401:
+                        return {
+                            type: NotificationEnum.ERROR,
+                            text: 'Неверный пароль',
+                        };
                     default:
                         return {
                             type: NotificationEnum.WARNING,
-                            text: 'произошла неизвестная ошибка, попробуйте позже',
+                            text: SOME_ERROR,
                         };
                 }
             }
@@ -54,7 +60,7 @@ export const useAuthStore = defineStore(Stores.Auth, {
                     default:
                         return {
                             type: NotificationEnum.WARNING,
-                            text: 'произошла неизвестная ошибка, попробуйте позже',
+                            text: SOME_ERROR,
                         };
                 }
             }
@@ -74,7 +80,7 @@ export const useAuthStore = defineStore(Stores.Auth, {
                     default:
                         return {
                             type: NotificationEnum.WARNING,
-                            text: 'произошла неизвестная ошибка, попробуйте позже',
+                            text: SOME_ERROR,
                         };
                 }
             }
@@ -84,7 +90,7 @@ export const useAuthStore = defineStore(Stores.Auth, {
                 text: 'Новый пароль выслан на почту',
             };
         },
-        async confirmEmail(token: string) {
+        async confirmEmail(token: string): Promise<Notification> {
             const services = useServiceStore();
 
             try {
@@ -100,7 +106,7 @@ export const useAuthStore = defineStore(Stores.Auth, {
                     default:
                         return {
                             type: NotificationEnum.WARNING,
-                            text: 'произошла неизвестная ошибка, попробуйте позже',
+                            text: SOME_ERROR,
                         };
                 }
             }
