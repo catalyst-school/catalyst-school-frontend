@@ -43,8 +43,8 @@ import type { LoginDto } from '@/models/auth/dto/LoginDto';
 export type FormLoginData = LoginDto;
 
 const emit = defineEmits<{
-    (e: 'signIn', data: FormLoginData): void;
-    (e: 'forgotPassword', email: string): void;
+    (e: 'sign-in', data: FormLoginData): void;
+    (e: 'forgot-password', email: string): void;
 }>();
 const notif = useNotification();
 const formSignIn = ref<FormInst | null>(null);
@@ -76,7 +76,7 @@ const rulesSignIn = {
 const signIn = async () => {
     await formSignIn.value?.validate((invalidControls) => {
         if (!invalidControls) {
-            emit('signIn', {
+            emit('sign-in', {
                 password: modelSignIn.password,
                 email: modelSignIn.email,
             });
@@ -100,7 +100,7 @@ const forgotPassword = async () => {
             content: 'Введите email',
         });
     } else {
-        emit('forgotPassword', modelSignIn.email);
+        emit('forgot-password', modelSignIn.email);
     }
 };
 </script>

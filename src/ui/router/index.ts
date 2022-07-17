@@ -8,6 +8,8 @@ export enum RouteNames {
     UpdateTheoryForm = 'admin-update-theory-form',
     AdminGoalList = 'admin-goal-list',
     AdminGoalBuilder = 'admin-goal-builder',
+    Login = 'login',
+    EmailConfirmation = 'email-confirmation',
 }
 
 const router = createRouter({
@@ -54,6 +56,16 @@ const router = createRouter({
                     component: () => import('../admin/views/UpdateTheory.vue'),
                 },
             ],
+        },
+        {
+            path: '/email-confirmation',
+            name: RouteNames.EmailConfirmation,
+            component: () => import('../main/views/EmailConfirmation.vue'),
+        },
+        {
+            path: '/login',
+            name: RouteNames.Login,
+            component: () => import('../main/views/Login.vue'),
         },
     ],
 });

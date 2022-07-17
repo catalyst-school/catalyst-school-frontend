@@ -34,7 +34,7 @@ import type { CreateUserDto } from '@/models/auth/dto/CreatUserDto';
 export type FormRegistryData = CreateUserDto;
 
 const emit = defineEmits<{
-    (e: 'signUp', data: FormRegistryData): void;
+    (e: 'sign-up', data: FormRegistryData): void;
 }>();
 
 const notif = useNotification();
@@ -83,7 +83,7 @@ const rulesSignUp = {
 const signUp = async () => {
     await formSignUp.value?.validate((invalidControls) => {
         if (!invalidControls) {
-            emit('signUp', {
+            emit('sign-up', {
                 email: modelSignUp.email,
                 password: modelSignUp.password,
                 reenterPassword: modelSignUp.reenterPassword,
