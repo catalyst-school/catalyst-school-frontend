@@ -1,6 +1,6 @@
 import type { NotificationType } from '@/ui/shared/models/NotificationType.enum';
 
-export interface ApiNotification {
+export interface ApiResponse {
     type: NotificationType;
     text: string;
 }

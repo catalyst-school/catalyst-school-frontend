@@ -5,7 +5,7 @@ import { UserConfig } from '@/utils/UserConfig';
 import { defineStore } from 'pinia';
 import { useServiceStore } from './ServiceStore';
 import { Stores } from './StoresEnum';
-import type { ApiNotification } from '@/models/shared/ApiNotification';
+import type { ApiResponse } from '@/models/shared/ApiResponse';
 
 interface ApiError {
     response: { status: number };
@@ -18,7 +18,7 @@ const DEFAULT_NOTIFICATION = {
 
 export const useAuthStore = defineStore(Stores.Auth, {
     actions: {
-        async login(data: LoginDto): Promise<ApiNotification> {
+        async login(data: LoginDto): Promise<ApiResponse> {
             const services = useServiceStore();
             try {
                 const userToken = await services.authService.login(data);
@@ -45,7 +45,7 @@ export const useAuthStore = defineStore(Stores.Auth, {
                 text: 'Добро пожаловать',
             };
         },
-        async register(data: CreateUserDto): Promise<ApiNotification> {
+        async register(data: CreateUserDto): Promise<ApiResponse> {
             const services = useServiceStore();
 
             try {
@@ -67,7 +67,7 @@ export const useAuthStore = defineStore(Stores.Auth, {
                 text: 'Перейдите в почту для подтверждения',
             };
         },
-        async forgotPassword(email: LoginDto['email']): Promise<ApiNotification> {
+        async forgotPassword(email: LoginDto['email']): Promise<ApiResponse> {
             const services = useServiceStore();
 
             try {
@@ -89,7 +89,7 @@ export const useAuthStore = defineStore(Stores.Auth, {
                 text: 'Перейдите на почту для восстановления пароля',
             };
         },
-        async confirmEmail(token: string): Promise<ApiNotification> {
+        async confirmEmail(token: string): Promise<ApiResponse> {
             const services = useServiceStore();
 
             try {
@@ -112,7 +112,7 @@ export const useAuthStore = defineStore(Stores.Auth, {
                 text: 'email успешно подтвержден',
             };
         },
-        async resetPassword(token: string, password: string): Promise<ApiNotification> {
+        async resetPassword(token: string, password: string): Promise<ApiResponse> {
             const services = useServiceStore();
 
             try {
