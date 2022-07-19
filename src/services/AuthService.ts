@@ -1,7 +1,7 @@
 import type { CreateUserDto } from '@/models/user/dto/CreatUserDto';
 import type { ForgotPasswordDto } from '@/models/auth/dto/ForgotPasswordDto';
 import type { LoginDto } from '@/models/auth/dto/LoginDto';
-import type { UserDto } from '@/models/auth/dto/UserDto';
+import type { UserDto } from '@/models/user/dto/UserDto';
 import { UserConfig } from '@/utils/UserConfig';
 import axios from 'axios';
 
