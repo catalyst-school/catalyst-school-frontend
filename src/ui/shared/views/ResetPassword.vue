@@ -22,7 +22,7 @@ import FormResetPassword, {
 } from '@/ui/shared/components/FormResetPassword.vue';
 
 let loading = ref(false);
-let typeResult: Ref<NotificationType | undefined> = ref();
+let typeResult: Ref<NotificationType> = ref(NotificationType.SUCCESS);
 let textResult = ref('');
 const authStore = useAuthStore();
 const route = useRoute();
