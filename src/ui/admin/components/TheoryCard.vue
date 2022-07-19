@@ -1,30 +1,38 @@
 <script setup lang="ts">
 import type { Theory } from '@/models/theory/Theory';
-import { Trash } from '@vicons/tabler';
-import { NButton, NEllipsis, NThing } from 'naive-ui';
+import { Trash, Edit } from '@vicons/tabler';
+import { NButton, NThing, NSpace } from 'naive-ui';
 import { defineProps } from 'vue';
 
 interface Props {
     theory: Theory;
 }
+interface Emits {
+    (e: 'remove', id: string): void;
+    (e: 'edit', id: string): void;
+}
 
 const props = defineProps<Props>();
+const emit = defineEmits<Emits>();
 </script>
 
 <template>
     <NThing content-indented class="unit">
-        <template #header>{{ props.theory?.title }}</template>
+        <template #header>{{ props.theory?.title }} </template>
         <template #header-extra>
-            <NButton circle size="small">
-                <template #icon>
-                    <Trash />
-                </template>
-            </NButton>
+            <n-space>
+                <n-button circle size="small" @click="emit('edit', props.theory._id)">
+                    <template #icon>
+                        <Edit />
+                    </template>
+                </n-button>
+                <n-button circle size="small" @click="emit('remove', props.theory._id)">
+                    <template #icon>
+                        <Trash />
+                    </template>
+                </n-button>
+            </n-space>
         </template>
-
-        <NEllipsis expand-trigger="click" line-clamp="2" :tooltip="false">
-            {{ props.theory?.content }}
-        </NEllipsis>
     </NThing>
 </template>
 

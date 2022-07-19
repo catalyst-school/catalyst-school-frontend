@@ -1,7 +1,9 @@
+import type { Theory } from '@/models/theory/Theory';
 import type { CreateTopicDto } from '@/models/topic/dto/CreateTopicDto';
 import type { UpdateTopicDto } from '@/models/topic/dto/UpdateTopicDto';
+import type { UpdateTopicSectionDto } from '@/models/topic/dto/UpdateTopicSectionDto';
 import type { Topic } from '@/models/topic/Topic';
-import type { TopicSectionType } from '@/models/topic/TopicSection';
+import type { TopicSection, TopicSectionType } from '@/models/topic/TopicSection';
 import { defineStore } from 'pinia';
 import { useServiceStore } from './ServiceStore';
 import { Stores } from './StoresEnum';
@@ -54,7 +56,58 @@ export const useTopicStore = defineStore(Stores.Topic, {
             }
         },
 
-        async addTask(sectionId: string, sheetId: number, id?: string) {
+        async addTheory(sectionId: string, theory: Theory): Promise<Topic | undefined> {
+            const services = useServiceStore();
+
+            if (!this.topic) {
+                return;
+            }
+
+            const sections = this.topic.sections.map((s) => {
+                if (s._id === sectionId) {
+                    s.theories?.push(theory);
+                }
+                return s;
+            });
+
+            try {
+                const updatedTopic = await services.topicService.update(this.topic._id, {
+                    sections: transformSectionToDto(sections),
+                });
+                this.topic.sections = updatedTopic.sections;
+                return updatedTopic;
+            } catch (e) {
+                console.error(e);
+            }
+        },
+
+        async removeTheory(sectionId: string, theoryId: string) {
+            const services = useServiceStore();
+            if (!this.topic) {
+                return;
+            }
+            const sections = this.topic.sections.map((s) => {
+                if (s._id === sectionId) {
+                    s?.theories?.forEach((theory, i) => {
+                        if (theory._id === theoryId) {
+                            s?.theories?.splice(i, 1);
+                        }
+                    });
+                }
+                return s;
+            });
+            try {
+                const updatedTopic = await services.topicService.update(this.topic._id, {
+                    sections,
+                } as UpdateTopicDto);
+                this.topic.sections = updatedTopic.sections;
+                return updatedTopic;
+            } catch (e) {
+                console.error(e);
+            }
+        },
+
+        async addTask(sectionId: string, sheetId: number) {
             const services = useServiceStore();
             const taskStore = useTaskStore();
             const task = taskStore.tasks.find((t) => t.properties.sheetId === sheetId);
@@ -78,7 +131,7 @@ export const useTopicStore = defineStore(Stores.Topic, {
             }
         },
 
-        async removeTask(sectionId: string, index: number, id?: string) {
+        async removeTask(sectionId: string, index: number) {
             const services = useServiceStore();
             if (!this.topic) {
                 return;
@@ -172,3 +225,10 @@ export const useTopicStore = defineStore(Stores.Topic, {
         },
     },
 });
+
+function transformSectionToDto(sections: TopicSection[]): UpdateTopicSectionDto[] {
+    return sections.map((s) => {
+        const theories = s.theories?.map((t) => t._id);
+        return { type: s.type, theories, tasks: s.tasks };
+    });
+}
