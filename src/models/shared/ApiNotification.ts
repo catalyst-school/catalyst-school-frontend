@@ -1,6 +1,6 @@
-import type { Notification } from '@/ui/shared/models/Notification.enum';
+import type { NotificationType } from '@/ui/shared/models/NotificationType.enum';
 
 export interface ApiNotification {
-    type: Notification;
+    type: NotificationType;
     text: string;
 }

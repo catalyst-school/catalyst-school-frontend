@@ -1,6 +1,6 @@
 import type { CreateUserDto } from '@/models/user/dto/CreatUserDto';
 import type { LoginDto } from '@/models/auth/dto/LoginDto';
-import { Notification } from '@/ui/shared/models/Notification.enum';
+import { NotificationType } from '@/ui/shared/models/NotificationType.enum';
 import { UserConfig } from '@/utils/UserConfig';
 import { defineStore } from 'pinia';
 import { useServiceStore } from './ServiceStore';
@@ -13,7 +13,7 @@ interface ApiError {
 
 const UNKNOWN_ERROR = 'Произошла неизвестная ошибка, попробуйте позже';
 const DEFAULT_NOTIFICATION = {
-    type: Notification.WARNING,
+    type: NotificationType,
     text: UNKNOWN_ERROR,
 };
 
@@ -28,12 +28,12 @@ export const useAuthStore = defineStore(Stores.Auth, {
                 switch ((e as ApiError).response.status) {
                     case 401:
                         return {
-                            type: Notification.ERROR,
+                            type: NotificationType.ERROR,
                             text: 'Неверный пароль',
                         };
                     case 404:
                         return {
-                            type: Notification.ERROR,
+                            type: NotificationType.ERROR,
                             text: 'Пользователь не найден',
                         };
                     default:
@@ -42,7 +42,7 @@ export const useAuthStore = defineStore(Stores.Auth, {
             }
 
             return {
-                type: Notification.SUCCESS,
+                type: NotificationType.SUCCESS,
                 text: 'Добро пожаловать',
             };
         },
@@ -55,19 +55,19 @@ export const useAuthStore = defineStore(Stores.Auth, {
                 switch ((e as ApiError).response.status) {
                     case 400:
                         return {
-                            type: Notification.ERROR,
+                            type: NotificationType.ERROR,
                             text: 'Пользователь с таким Email уже зарегестрирован',
                         };
                     default:
                         return {
-                            type: Notification.WARNING,
+                            type: NotificationType.WARNING,
                             text: UNKNOWN_ERROR,
                         };
                 }
             }
 
             return {
-                type: Notification.SUCCESS,
+                type: NotificationType.SUCCESS,
                 text: 'Перейдите в почту для подтверждения',
             };
         },
@@ -80,7 +80,7 @@ export const useAuthStore = defineStore(Stores.Auth, {
                 switch ((e as ApiError).response.status) {
                     case 404:
                         return {
-                            type: Notification.ERROR,
+                            type: NotificationType.ERROR,
                             text: 'Пользователь не найден',
                         };
                     default:
@@ -89,7 +89,7 @@ export const useAuthStore = defineStore(Stores.Auth, {
             }
 
             return {
-                type: Notification.SUCCESS,
+                type: NotificationType.SUCCESS,
                 text: 'Перейдите на почту для восстановления пароля',
             };
         },
@@ -102,7 +102,7 @@ export const useAuthStore = defineStore(Stores.Auth, {
                 switch ((e as ApiError).response.status) {
                     case 400:
                         return {
-                            type: Notification.ERROR,
+                            type: NotificationType.ERROR,
                             text: 'Email уже подтвержден',
                         };
                     default:
@@ -112,7 +112,7 @@ export const useAuthStore = defineStore(Stores.Auth, {
 
             localStorage.setItem(UserConfig.token, token);
             return {
-                type: Notification.SUCCESS,
+                type: NotificationType.SUCCESS,
                 text: 'email успешно подтвержден',
             };
         },
@@ -125,7 +125,7 @@ export const useAuthStore = defineStore(Stores.Auth, {
                 switch ((e as ApiError).response.status) {
                     case 404:
                         return {
-                            type: Notification.ERROR,
+                            type: NotificationType.ERROR,
                             text: 'Пользователь не найден',
                         };
                     default:
@@ -134,7 +134,7 @@ export const useAuthStore = defineStore(Stores.Auth, {
             }
 
             return {
-                type: Notification.SUCCESS,
+                type: NotificationType.SUCCESS,
                 text: 'Новый пароль установлен',
             };
         },

@@ -33,10 +33,10 @@ import { Plus, ArrowBack } from '@vicons/tabler';
 import type { UpdateTheoryDto } from '@/models/theory/dto/UpdateTheoryDto';
 import type { CreateTheoryDto } from '@/models/theory/dto/CreateTheoryDto';
 import type { Theory } from '@/models/theory/Theory';
-import { toolbarOptions, imageEditOptions } from '@/util-configs/quill-configs';
+import { imageEditOptions, toolbarOptions } from '@/utils/quill-configs';
 
 interface Props {
-    data?: Theory;
+    theory?: Theory | null;
 }
 
 let editor: Quill;
@@ -48,7 +48,7 @@ const emit = defineEmits<{
     (e: 'cancel'): void;
 }>();
 
-onMounted(() => {
+onMounted((): void => {
     editor = new Quill('#editor', {
         modules: {
             toolbar: toolbarOptions,
@@ -58,13 +58,13 @@ onMounted(() => {
         theme: 'snow',
     });
 
-    if (props.data) {
-        title.value = props.data.title || '';
-        editor.setContents(JSON.parse(props.data.content));
+    if (props.theory) {
+        title.value = props.theory.title || '';
+        editor.setContents(JSON.parse(props.theory.content));
     }
 });
 
-const save = async () => {
+const save = (): void => {
     const content = JSON.stringify(editor.getContents());
     emit('save', { title: title.value, content: content });
 };

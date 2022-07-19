@@ -47,7 +47,7 @@ import { nextTick, ref } from 'vue';
 import { NTabPane, NCard, NTabs, NResult, NSpin, useNotification } from 'naive-ui';
 import { useAuthStore } from '@/stores/AuthStore';
 import router, { RouteNames } from '@/ui/router';
-import { Notification } from '@/ui/shared/models/Notification.enum';
+import { NotificationType } from '@/ui/shared/models/NotificationType.enum';
 import FormSignIn, { type FormSignInData } from '../components/FormSignIn.vue';
 import FormSignUp, { type FormSignUpData } from '../components/FormSignUp.vue';
 
@@ -61,7 +61,7 @@ const signIn = async (data: FormSignInData) => {
     loading.value = true;
     const responce = await authStore.login(data);
     loading.value = false;
-    if (responce?.type === Notification.SUCCESS) {
+    if (responce?.type === NotificationType.SUCCESS) {
         router.push({ name: RouteNames.Main });
         nextTick();
     } else {
@@ -86,7 +86,7 @@ const signUp = async (data: FormSignUpData) => {
     loading.value = true;
     const responce = await authStore.register(data);
     loading.value = false;
-    responce?.type === Notification.SUCCESS ? (successSignIn.value = true) : null;
+    responce?.type === NotificationType.SUCCESS ? (successSignIn.value = true) : null;
 };
 </script>
 <style>

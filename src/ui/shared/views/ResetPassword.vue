@@ -15,14 +15,14 @@ import { ref, type Ref } from 'vue';
 import { useAuthStore } from '@/stores/AuthStore';
 import { useRoute, useRouter } from 'vue-router';
 import { RouteNames } from '@/ui/router';
-import { Notification } from '@/ui/shared/models/Notification.enum';
+import { NotificationType } from '@/ui/shared/models/NotificationType.enum';
 import { NResult, NSpin } from 'naive-ui';
 import FormResetPassword, {
     type ResetPassword,
 } from '@/ui/shared/components/FormResetPassword.vue';
 
 let loading = ref(false);
-let typeResult: Ref<Notification | undefined> = ref();
+let typeResult: Ref<NotificationType | undefined> = ref();
 let textResult = ref('');
 const authStore = useAuthStore();
 const route = useRoute();
@@ -36,7 +36,7 @@ const reset = async (resetData: ResetPassword): Promise<void> => {
     typeResult.value = resp.type;
     textResult.value = resp.text;
 
-    if (typeResult.value === Notification.SUCCESS) {
+    if (typeResult.value === NotificationType.SUCCESS) {
         setTimeout(() => router.push({ name: RouteNames.Main }), 3000);
     }
 };
