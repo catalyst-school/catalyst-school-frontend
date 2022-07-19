@@ -11,10 +11,9 @@ interface ApiError {
     response: { status: number };
 }
 
-const UNKNOWN_ERROR = 'Произошла неизвестная ошибка, попробуйте позже';
 const DEFAULT_NOTIFICATION = {
-    type: NotificationType,
-    text: UNKNOWN_ERROR,
+    type: NotificationType.WARNING,
+    text: 'Произошла неизвестная ошибка, попробуйте позже',
 };
 
 export const useAuthStore = defineStore(Stores.Auth, {
@@ -59,10 +58,7 @@ export const useAuthStore = defineStore(Stores.Auth, {
                             text: 'Пользователь с таким Email уже зарегестрирован',
                         };
                     default:
-                        return {
-                            type: NotificationType.WARNING,
-                            text: UNKNOWN_ERROR,
-                        };
+                        return DEFAULT_NOTIFICATION;
                 }
             }
 
