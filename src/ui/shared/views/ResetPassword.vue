@@ -22,7 +22,9 @@ import FormResetPassword, {
 } from '@/ui/shared/components/FormResetPassword.vue';
 
 let loading = ref(false);
-let typeResult = ref(NotificationType.SUCCESS);
+let typeResult: Ref<
+    'info' | 'success' | 'warning' | 'error' | '500' | '404' | '403' | '418' | undefined
+> = ref(NotificationType.SUCCESS);
 let textResult = ref('');
 const authStore = useAuthStore();
 const route = useRoute();
@@ -33,7 +35,7 @@ const reset = async (resetData: ResetPassword): Promise<void> => {
     const resp = await authStore.resetPassword(route.query.token as string, resetData.password);
 
     loading.value = false;
-    typeResult.value = resp.type;
+    typeResult.value = resp.type as string;
     textResult.value = resp.text;
 
     if (typeResult.value === NotificationType.SUCCESS) {
