@@ -33,7 +33,7 @@ import { Plus, ArrowBack } from '@vicons/tabler';
 import type { UpdateTheoryDto } from '@/models/theory/dto/UpdateTheoryDto';
 import type { CreateTheoryDto } from '@/models/theory/dto/CreateTheoryDto';
 import type { Theory } from '@/models/theory/Theory';
-import { toolbarOptions, imageEditOptions } from '@/util-configs/quill-configs';
+import { imageEditOptions, toolbarOptions } from '@/utils/quill-configs';
 
 interface Props {
     theory?: Theory | null;

@@ -8,6 +8,9 @@ export enum RouteNames {
     UpdateTheoryForm = 'admin-update-theory-form',
     AdminGoalList = 'admin-goal-list',
     AdminGoalBuilder = 'admin-goal-builder',
+    Login = 'login',
+    EmailConfirmation = 'email-confirmation',
+    ResetPassword = 'reset-password',
 }
 
 const router = createRouter({
@@ -54,6 +57,21 @@ const router = createRouter({
                     component: () => import('../admin/views/UpdateTheory.vue'),
                 },
             ],
+        },
+        {
+            path: '/email-confirmation',
+            name: RouteNames.EmailConfirmation,
+            component: () => import('../shared/views/EmailConfirmation.vue'),
+        },
+        {
+            path: '/reset-password',
+            name: RouteNames.ResetPassword,
+            component: () => import('../shared/views/ResetPassword.vue'),
+        },
+        {
+            path: '/login',
+            name: RouteNames.Login,
+            component: () => import('../shared/views/LoginView.vue'),
         },
     ],
 });

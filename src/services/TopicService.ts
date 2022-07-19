@@ -3,31 +3,30 @@ import type { UpdateTopicDto } from '@/models/topic/dto/UpdateTopicDto';
 import type { Topic } from '@/models/topic/Topic';
 import axios from 'axios';
 
+const API_URL = import.meta.env.VITE_API_URL;
 export class TopicService {
-    private API_URL = import.meta.env.VITE_API_URL;
-
-    public async create(topic: CreateTopicDto): Promise<Topic> {
-        const res = await axios.post(`${this.API_URL}/topics`, { ...topic });
+    async create(topic: CreateTopicDto): Promise<Topic> {
+        const res = await axios.post(`${API_URL}/topics`, { ...topic });
         return res.data;
     }
 
-    public async update(id: string, topic: UpdateTopicDto): Promise<Topic> {
-        const res = await axios.patch(`${this.API_URL}/topics/${id}`, { ...topic });
+    async update(id: string, topic: UpdateTopicDto): Promise<Topic> {
+        const res = await axios.patch(`${API_URL}/topics/${id}`, { ...topic });
         return res.data;
     }
 
-    public async getAll(): Promise<Topic[]> {
-        const res = await axios.get(`${this.API_URL}/topics`);
+    async getAll(): Promise<Topic[]> {
+        const res = await axios.get(`${API_URL}/topics`);
         return res.data;
     }
 
-    public async getById(id: string): Promise<Topic> {
-        const res = await axios.get(`${this.API_URL}/topics/${id}`);
+    async getById(id: string): Promise<Topic> {
+        const res = await axios.get(`${API_URL}/topics/${id}`);
         return res.data;
     }
 
-    public async remove(id: string): Promise<Topic[]> {
-        const res = await axios.delete(`${this.API_URL}/topics/${id}`);
+    async remove(id: string): Promise<Topic[]> {
+        const res = await axios.delete(`${API_URL}/topics/${id}`);
         return res.data;
     }
 }

@@ -1,3 +1,4 @@
+import { AuthService } from '@/services/AuthService';
 import { GoalService } from '@/services/GoalService';
 import { TaskService } from '@/services/TaskService';
 import { TheoryService } from '@/services/TheoryService';
@@ -11,5 +12,6 @@ export const useServiceStore = defineStore(Stores.Service, {
         taskService: new TaskService(),
         goalService: new GoalService(),
         theoryService: new TheoryService(),
+        authService: new AuthService(),
     }),
 });
