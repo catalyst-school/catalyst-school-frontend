@@ -1,26 +1,25 @@
-import type { CreateUserDto } from '@/models/auth/dto/CreatUserDto';
+import type { CreateUserDto } from '@/models/user/dto/CreatUserDto';
 import type { LoginDto } from '@/models/auth/dto/LoginDto';
-import { NotificationEnum } from '@/ui/shared/models/notification.enum';
-import { UserConfig } from '@/util-configs/UserConfig';
+import { Notification } from '@/ui/shared/models/Notification.enum';
+import { UserConfig } from '@/utils/UserConfig';
 import { defineStore } from 'pinia';
 import { useServiceStore } from './ServiceStore';
 import { Stores } from './StoresEnum';
+import type { ApiNotification } from '@/models/shared/ApiNotification';
 
 interface ApiError {
-    response: {
-        status: number;
-    };
-}
-interface Notification {
-    type: NotificationEnum;
-    text: string;
+    response: { status: number };
 }
 
-const SOME_ERROR = 'Произошла неизвестная ошибка, попробуйте позже';
+const UNKNOWN_ERROR = 'Произошла неизвестная ошибка, попробуйте позже';
+const DEFAULT_NOTIFICATION = {
+    type: Notification.WARNING,
+    text: UNKNOWN_ERROR,
+};
 
 export const useAuthStore = defineStore(Stores.Auth, {
     actions: {
-        async login(data: LoginDto): Promise<Notification> {
+        async login(data: LoginDto): Promise<ApiNotification> {
             const services = useServiceStore();
             try {
                 const userToken = await services.authService.login(data);
@@ -29,23 +28,25 @@ export const useAuthStore = defineStore(Stores.Auth, {
                 switch ((e as ApiError).response.status) {
                     case 401:
                         return {
-                            type: NotificationEnum.ERROR,
+                            type: Notification.ERROR,
                             text: 'Неверный пароль',
                         };
-                    default:
+                    case 404:
                         return {
-                            type: NotificationEnum.WARNING,
-                            text: SOME_ERROR,
+                            type: Notification.ERROR,
+                            text: 'Пользователь не найден',
                         };
+                    default:
+                        return DEFAULT_NOTIFICATION;
                 }
             }
 
             return {
-                type: NotificationEnum.SUCCESS,
-                text: 'Пользователь успешно найден',
+                type: Notification.SUCCESS,
+                text: 'Добро пожаловать',
             };
         },
-        async register(data: CreateUserDto): Promise<Notification> {
+        async register(data: CreateUserDto): Promise<ApiNotification> {
             const services = useServiceStore();
 
             try {
@@ -54,43 +55,45 @@ export const useAuthStore = defineStore(Stores.Auth, {
                 switch ((e as ApiError).response.status) {
                     case 400:
                         return {
-                            type: NotificationEnum.ERROR,
-                            text: 'Пользователь с таким email уже зарегестрирован',
+                            type: Notification.ERROR,
+                            text: 'Пользователь с таким Email уже зарегестрирован',
                         };
                     default:
                         return {
-                            type: NotificationEnum.WARNING,
-                            text: SOME_ERROR,
+                            type: Notification.WARNING,
+                            text: UNKNOWN_ERROR,
                         };
                 }
             }
 
             return {
-                type: NotificationEnum.SUCCESS,
-                text: 'перейдите в почту для подтверждения',
+                type: Notification.SUCCESS,
+                text: 'Перейдите в почту для подтверждения',
             };
         },
-        async forgotPassword(email: LoginDto['email']): Promise<Notification> {
+        async forgotPassword(email: LoginDto['email']): Promise<ApiNotification> {
             const services = useServiceStore();
 
             try {
                 await services.authService.forgotPassword({ email });
             } catch (e) {
                 switch ((e as ApiError).response.status) {
-                    default:
+                    case 404:
                         return {
-                            type: NotificationEnum.WARNING,
-                            text: SOME_ERROR,
+                            type: Notification.ERROR,
+                            text: 'Пользователь не найден',
                         };
+                    default:
+                        return DEFAULT_NOTIFICATION;
                 }
             }
 
             return {
-                type: NotificationEnum.SUCCESS,
-                text: 'Новый пароль выслан на почту',
+                type: Notification.SUCCESS,
+                text: 'Перейдите на почту для восстановления пароля',
             };
         },
-        async confirmEmail(token: string): Promise<Notification> {
+        async confirmEmail(token: string): Promise<ApiNotification> {
             const services = useServiceStore();
 
             try {
@@ -99,42 +102,39 @@ export const useAuthStore = defineStore(Stores.Auth, {
                 switch ((e as ApiError).response.status) {
                     case 400:
                         return {
-                            type: NotificationEnum.ERROR,
-                            text: 'email уже подтвержден',
+                            type: Notification.ERROR,
+                            text: 'Email уже подтвержден',
                         };
-                        break;
                     default:
-                        return {
-                            type: NotificationEnum.WARNING,
-                            text: SOME_ERROR,
-                        };
+                        return DEFAULT_NOTIFICATION;
                 }
             }
 
             localStorage.setItem(UserConfig.token, token);
             return {
-                type: NotificationEnum.SUCCESS,
+                type: Notification.SUCCESS,
                 text: 'email успешно подтвержден',
             };
         },
-        async resetPassword(token: string, password: string): Promise<Notification> {
+        async resetPassword(token: string, password: string): Promise<ApiNotification> {
             const services = useServiceStore();
 
             try {
                 await services.authService.resetPassword(token, password);
             } catch (e) {
                 switch ((e as ApiError).response.status) {
-                    case 401:
-                    default:
+                    case 404:
                         return {
-                            type: NotificationEnum.WARNING,
-                            text: SOME_ERROR,
+                            type: Notification.ERROR,
+                            text: 'Пользователь не найден',
                         };
+                    default:
+                        return DEFAULT_NOTIFICATION;
                 }
             }
 
             return {
-                type: NotificationEnum.SUCCESS,
+                type: Notification.SUCCESS,
                 text: 'Новый пароль установлен',
             };
         },

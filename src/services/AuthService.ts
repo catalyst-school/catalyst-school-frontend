@@ -1,8 +1,8 @@
-import type { CreateUserDto } from '@/models/auth/dto/CreatUserDto';
+import type { CreateUserDto } from '@/models/user/dto/CreatUserDto';
 import type { ForgotPasswordDto } from '@/models/auth/dto/ForgotPasswordDto';
 import type { LoginDto } from '@/models/auth/dto/LoginDto';
 import type { UserDto } from '@/models/auth/dto/UserDto';
-import { UserConfig } from '@/util-configs/UserConfig';
+import { UserConfig } from '@/utils/UserConfig';
 import axios from 'axios';
 
 const API_URL = import.meta.env.VITE_API_URL;
@@ -18,20 +18,19 @@ export class AuthService {
         return res.data;
     }
 
-    async forgotPassword(data: ForgotPasswordDto): Promise<any> {
-        const res = await axios.post(`${API_URL}/auth/email/forgot-password`, data);
-        return res;
+    async forgotPassword(data: ForgotPasswordDto): Promise<void> {
+        return await axios.post(`${API_URL}/auth/email/forgot-password`, data);
     }
 
     async confirmEmail(token: string): Promise<void> {
-        await axios.post(`${API_URL}/auth/email/confirm`, null, { headers: authHeader(token) });
+        await axios.post(`${API_URL}/auth/email/confirm`, null, { headers: getAuthHeader(token) });
     }
 
     async resetPassword(token: string, password: string): Promise<void> {
         await axios.post(
             `${API_URL}/auth/email/reset-password`,
             { password },
-            { headers: authHeader(token) },
+            { headers: getAuthHeader(token) },
         );
     }
 
@@ -40,6 +39,6 @@ export class AuthService {
     }
 }
 
-export default function authHeader(token: string): any {
+export default function getAuthHeader(token: string): any {
     return { Authorization: `Bearer ${token}` };
 }

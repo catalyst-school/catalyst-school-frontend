@@ -15,7 +15,7 @@
                     :disabled="successSignIn"
                     @click="currentForm = 'signin'"
                 >
-                    <form-login
+                    <form-sign-in
                         @sign-in="signIn($event)"
                         @forgot-password="forgotPassword($event)"
                     />
@@ -27,12 +27,12 @@
                     @click="currentForm = 'signup'"
                 >
                     <div v-if="!successSignIn">
-                        <form-registry @sign-up="signUp($event)"></form-registry>
+                        <form-sign-up @sign-up="signUp($event)" />
                     </div>
                     <div v-if="successSignIn">
                         <n-result
                             status="success"
-                            title="Регистрация успешна"
+                            title="Вы успешно зарегистрировались"
                             description="Перейдите в почту для подтверждения!"
                         ></n-result>
                     </div>
@@ -47,9 +47,9 @@ import { nextTick, ref } from 'vue';
 import { NTabPane, NCard, NTabs, NResult, NSpin, useNotification } from 'naive-ui';
 import { useAuthStore } from '@/stores/AuthStore';
 import router, { RouteNames } from '@/ui/router';
-import { NotificationEnum } from '@/ui/shared/models/notification.enum';
-import FormLogin, { type FormLoginData } from '../../shared/components/FormLogin.vue';
-import FormRegistry, { type FormRegistryData } from '../../shared/components/FormRegistry.vue';
+import { Notification } from '@/ui/shared/models/Notification.enum';
+import FormSignIn, { type FormSignInData } from '../components/FormSignIn.vue';
+import FormSignUp, { type FormSignUpData } from '../components/FormSignUp.vue';
 
 let successSignIn = ref(false);
 let loading = ref(false);
@@ -57,36 +57,36 @@ let currentForm: 'signin' | 'signup' = 'signin';
 const authStore = useAuthStore();
 const notif = useNotification();
 
-const signIn = async (data: FormLoginData) => {
+const signIn = async (data: FormSignInData) => {
     loading.value = true;
-    const notification = await authStore.login(data);
+    const responce = await authStore.login(data);
     loading.value = false;
-    if (notification?.type === NotificationEnum.SUCCESS) {
+    if (responce?.type === Notification.SUCCESS) {
         router.push({ name: RouteNames.Main });
         nextTick();
     } else {
         notif.create({
-            type: notification?.type,
-            content: notification?.text,
+            type: responce?.type,
+            content: responce?.text,
         });
     }
 };
 
 const forgotPassword = async (email: string) => {
     loading.value = true;
-    const notification = await authStore.forgotPassword(email);
+    const responce = await authStore.forgotPassword(email);
     loading.value = false;
     notif.create({
-        type: notification.type,
-        content: notification.text,
+        type: responce.type,
+        content: responce.text,
     });
 };
 
-const signUp = async (data: FormRegistryData) => {
+const signUp = async (data: FormSignUpData) => {
     loading.value = true;
-    const notification = await authStore.register(data);
+    const responce = await authStore.register(data);
     loading.value = false;
-    notification?.type === NotificationEnum.SUCCESS ? (successSignIn.value = true) : null;
+    responce?.type === Notification.SUCCESS ? (successSignIn.value = true) : null;
 };
 </script>
 <style>

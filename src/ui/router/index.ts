@@ -61,17 +61,17 @@ const router = createRouter({
         {
             path: '/email-confirmation',
             name: RouteNames.EmailConfirmation,
-            component: () => import('../main/views/EmailConfirmation.vue'),
+            component: () => import('../shared/views/EmailConfirmation.vue'),
         },
         {
             path: '/reset-password',
             name: RouteNames.ResetPassword,
-            component: () => import('../main/views/ResetPassword.vue'),
+            component: () => import('../shared/views/ResetPassword.vue'),
         },
         {
             path: '/login',
             name: RouteNames.Login,
-            component: () => import('../main/views/LoginView.vue'),
+            component: () => import('../shared/views/LoginView.vue'),
         },
     ],
 });

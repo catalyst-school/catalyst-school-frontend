@@ -1,6 +1,6 @@
 <template>
     <n-form ref="formSignUp" :model="modelSignUp" :rules="rulesSignUp">
-        <n-form-item-row label="email" path="email">
+        <n-form-item-row label="Email" path="email">
             <n-input v-model:value="modelSignUp.email" placeholder="" />
         </n-form-item-row>
         <n-form-item-row label="Пароль" path="password">
@@ -27,14 +27,21 @@ import {
     type FormInst,
     type FormItemRule,
 } from 'naive-ui';
-import { emailRegExp } from '@/util-configs/Validathions';
-import { ref, reactive } from 'vue';
-import type { CreateUserDto } from '@/models/auth/dto/CreatUserDto';
 
-export type FormRegistryData = CreateUserDto;
+import { ref, reactive } from 'vue';
+import type { CreateUserDto } from '@/models/user/dto/CreatUserDto';
+import {
+    emailRegExp,
+    emailValidMessage,
+    passwordLengMessage,
+    passwordReenterMessage,
+    passwordsDoNotMatch,
+} from '@/utils/ValidationHelpers';
+
+export type FormSignUpData = CreateUserDto;
 
 const emit = defineEmits<{
-    (e: 'sign-up', data: FormRegistryData): void;
+    (e: 'sign-up', data: FormSignUpData): void;
 }>();
 
 const notif = useNotification();
@@ -52,7 +59,7 @@ const rulesSignUp = {
             return isValid;
         },
         trigger: ['blur', 'input'],
-        message: 'Введите валидный email',
+        message: emailValidMessage,
     },
     password: {
         required: true,
@@ -61,7 +68,7 @@ const rulesSignUp = {
             return isValid;
         },
         trigger: ['blur', 'input'],
-        message: `Должен быть не меньше 8 символов`,
+        message: passwordLengMessage,
     },
     reenterPassword: [
         {
@@ -69,13 +76,13 @@ const rulesSignUp = {
                 const isValid = modelSignUp.password === value;
                 return isValid;
             },
-            message: 'Пароли не совпадают',
+            message: passwordsDoNotMatch,
             trigger: 'input',
         },
         {
             required: true,
             trigger: ['blur', 'input'],
-            message: 'Пожалуйста повторите пароль',
+            message: passwordReenterMessage,
         },
     ],
 };
@@ -86,7 +93,6 @@ const signUp = async () => {
             emit('sign-up', {
                 email: modelSignUp.email,
                 password: modelSignUp.password,
-                reenterPassword: modelSignUp.reenterPassword,
             });
         } else {
             invalidControls.forEach((controlErrors) => {

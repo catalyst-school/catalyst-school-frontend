@@ -36,11 +36,16 @@ import {
 } from 'naive-ui';
 import { ref, reactive } from 'vue';
 import type { ResetPasswordDto } from '@/models/auth/dto/ResetPasswordDto';
+import {
+    passwordLengMessage,
+    passwordReenterMessage,
+    passwordsDoNotMatch,
+} from '@/utils/ValidationHelpers';
 
-export type resetPassword = ResetPasswordDto;
+export type ResetPassword = ResetPasswordDto;
 
 const emit = defineEmits<{
-    (e: 'save', data: resetPassword): void;
+    (e: 'save', data: ResetPassword): void;
 }>();
 
 const notif = useNotification();
@@ -57,7 +62,7 @@ const rulesSignUp = {
             return isValid;
         },
         trigger: ['blur', 'input'],
-        message: `Должен быть не меньше 8 символов`,
+        message: passwordLengMessage,
     },
     reenterPassword: [
         {
@@ -65,13 +70,13 @@ const rulesSignUp = {
                 const isValid = modelResetPassword.password === value;
                 return isValid;
             },
-            message: 'Пароли не совпадают',
+            message: passwordsDoNotMatch,
             trigger: 'input',
         },
         {
             required: true,
             trigger: ['blur', 'input'],
-            message: 'Пожалуйста повторите пароль',
+            message: passwordReenterMessage,
         },
     ],
 };

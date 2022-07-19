@@ -46,11 +46,13 @@ const logout = () => {
 <template>
     <n-space align="center" justify="space-between">
         <NMenu v-model:value="activeKey" mode="horizontal" :options="menuOptions" />
-        <n-button class="btn" round @click="logout()">выйти</n-button>
+        <n-button class="btn" round @click="logout()">Выйти</n-button>
     </n-space>
 </template>
-<style>
+<style scoped lang="scss">
+@import '@/assets/variables.scss';
+
 .btn {
-    margin-right: 40px;
+    margin-right: $base * 4;
 }
 </style>
