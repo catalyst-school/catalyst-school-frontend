@@ -17,6 +17,11 @@ const DEFAULT_NOTIFICATION = {
 };
 
 export const useAuthStore = defineStore(Stores.Auth, {
+    getters: {
+        isLoggedIn(): boolean {
+            return !!localStorage.getItem(UserConfig.token);
+        },
+    },
     actions: {
         async login(data: LoginDto): Promise<ApiResponse> {
             const services = useServiceStore();
@@ -109,7 +114,7 @@ export const useAuthStore = defineStore(Stores.Auth, {
             localStorage.setItem(UserConfig.token, token);
             return {
                 type: NotificationType.SUCCESS,
-                text: 'email успешно подтвержден',
+                text: 'Email успешно подтвержден',
             };
         },
         async resetPassword(token: string, password: string): Promise<ApiResponse> {
