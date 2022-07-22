@@ -20,7 +20,7 @@
             block
             @click="forgotPassword"
         >
-            Напомнить
+            Восстановить пароль
         </n-button>
     </n-form>
 </template>
