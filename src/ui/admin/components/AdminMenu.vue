@@ -4,6 +4,7 @@ import { Home, Books, Target } from '@vicons/tabler';
 import { NIcon, type MenuOption, NMenu } from 'naive-ui';
 import { type Component, h, ref, watch } from 'vue';
 import { RouterLink, useRoute } from 'vue-router';
+import AuthButtons from '@/ui/shared/components/AuthButtons.vue';
 
 function renderIcon(icon: Component) {
     return () => h(NIcon, null, { default: () => h(icon) });
@@ -50,4 +51,5 @@ watch(
 
 <template>
     <NMenu v-model:value="activeKey" mode="horizontal" :options="menuOptions" />
+    <AuthButtons />
 </template>

@@ -1,13 +1,10 @@
 <script setup lang="ts">
-import { useAuthStore } from '@/stores/AuthStore';
 import { RouteNames } from '@/ui/router';
-import { Home, Crane } from '@vicons/tabler';
-import { NIcon, type MenuOption, NMenu, NButton, NSpace } from 'naive-ui';
-import { type Component, h, ref, watch, nextTick } from 'vue';
-import { RouterLink, useRoute, useRouter } from 'vue-router';
-
-const authStore = useAuthStore();
-const router = useRouter();
+import { Crane, Home } from '@vicons/tabler';
+import { NIcon, NMenu, NSpace, type MenuOption } from 'naive-ui';
+import { h, ref, watch, type Component } from 'vue';
+import { RouterLink, useRoute } from 'vue-router';
+import AuthButtons from '@/ui/shared/components/AuthButtons.vue';
 
 function renderIcon(icon: Component) {
     return () => h(NIcon, null, { default: () => h(icon) });
@@ -35,18 +32,12 @@ watch(
         activeKey.value = name as string;
     },
 );
-
-const logout = () => {
-    authStore.logout();
-    router.push({ name: RouteNames.Login });
-    nextTick();
-};
 </script>
 
 <template>
     <n-space align="center" justify="space-between">
         <NMenu v-model:value="activeKey" mode="horizontal" :options="menuOptions" />
-        <n-button class="btn" round @click="logout()">Выйти</n-button>
+        <AuthButtons />
     </n-space>
 </template>
 <style scoped lang="scss">
