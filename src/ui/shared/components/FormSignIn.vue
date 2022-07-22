@@ -1,12 +1,12 @@
 <template>
     <n-modal
         v-model:show="forgotPasswordModal"
+        class="modal"
         :mask-closable="false"
         preset="dialog"
-        style="margintop: 14%"
     >
         <template #header>
-            <div>Ваш Eamil</div>
+            <div>Ваш Email</div>
         </template>
         <div><form-forgot-password :email="modelSignIn.email" @save="forgotPassword" /></div>
     </n-modal>
@@ -118,3 +118,8 @@ const forgotPassword = (email: string) => {
     forgotPasswordModal.value = false;
 };
 </script>
+<style>
+.modal {
+    margin-top: 14%;
+}
+</style>

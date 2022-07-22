@@ -20,7 +20,7 @@
             block
             @click="forgotPassword"
         >
-            Восстановить пароль
+            Восстановить
         </n-button>
     </n-form>
 </template>
@@ -99,7 +99,7 @@ const forgotPassword = async () => {
 </script>
 <style scoped lang="scss">
 .button {
-    width: 25%;
+    width: 30%;
     margin-left: auto;
 }
 </style>
