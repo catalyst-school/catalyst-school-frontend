@@ -1,9 +1,14 @@
 <template>
-    <n-modal v-model:show="showModal" :mask-closable="false" preset="dialog">
+    <n-modal
+        v-model:show="forgotPasswordModal"
+        :mask-closable="false"
+        preset="dialog"
+        style="margintop: 14%"
+    >
         <template #header>
             <div>Ваш Eamil</div>
         </template>
-        <div><form-forgot-password @save="forgotPassword" /></div>
+        <div><form-forgot-password :email="modelSignIn.email" @save="forgotPassword" /></div>
     </n-modal>
     <n-form
         ref="formSignIn"
@@ -25,7 +30,13 @@
         <n-button attr-type="button" type="primary" size="medium" block strong @click="signIn">
             Войти
         </n-button>
-        <n-button attr-type="button" size="medium" quaternary block @click="showModal = true">
+        <n-button
+            attr-type="button"
+            size="medium"
+            quaternary
+            block
+            @click="forgotPasswordModal = true"
+        >
             Забыли пароль
         </n-button>
     </n-space>
@@ -56,7 +67,7 @@ const emit = defineEmits<{
 }>();
 const notif = useNotification();
 const formSignIn = ref<FormInst | null>(null);
-const showModal = ref(false);
+const forgotPasswordModal = ref(false);
 
 const modelSignIn = reactive({
     email: '',
@@ -104,6 +115,6 @@ const signIn = async () => {
 
 const forgotPassword = (email: string) => {
     emit('forgot-password', email);
-    showModal.value = false;
+    forgotPasswordModal.value = false;
 };
 </script>

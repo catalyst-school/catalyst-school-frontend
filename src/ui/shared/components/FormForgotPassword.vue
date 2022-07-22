@@ -12,6 +12,7 @@
         </n-form-item>
 
         <n-button
+            class="button"
             attr-type="button"
             type="primary"
             size="medium"
@@ -19,7 +20,7 @@
             block
             @click="forgotPassword"
         >
-            Забыли пароль
+            Напомнить
         </n-button>
     </n-form>
 </template>
@@ -34,15 +35,21 @@ import {
     type FormItemRule,
     type FormInst,
 } from 'naive-ui';
-import { reactive, ref } from 'vue';
+import { onMounted, reactive, ref } from 'vue';
 import type { LoginDto } from '@/models/auth/dto/LoginDto';
 import { emailRegExp, emailValidMessage } from '@/utils/ValidationHelpers';
 
 export type FormSignInData = LoginDto;
 
+interface Props {
+    email?: string;
+}
+
+const props = defineProps<Props>();
 const emit = defineEmits<{
     (e: 'save', email: string): void;
 }>();
+
 const notif = useNotification();
 const formForgotPassword = ref<FormInst | null>(null);
 
@@ -69,6 +76,10 @@ const rulesForgotPassword = {
     ],
 };
 
+onMounted(() => {
+    props.email ? (modelForgotPassword.email = props.email) : null;
+});
+
 const forgotPassword = async () => {
     await formForgotPassword.value?.validate((invalidControls) => {
         if (!invalidControls) {
@@ -86,3 +97,9 @@ const forgotPassword = async () => {
     });
 };
 </script>
+<style scoped lang="scss">
+.button {
+    width: 25%;
+    margin-left: auto;
+}
+</style>

@@ -89,7 +89,7 @@ const signUp = async (data: FormSignUpData) => {
     responce?.type === NotificationType.SUCCESS ? (successSignIn.value = true) : null;
 };
 </script>
-<style>
+<style scoped>
 .form {
     max-width: 40%;
     margin: 0 auto;
