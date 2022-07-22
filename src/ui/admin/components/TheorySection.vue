@@ -1,4 +1,3 @@
-c
 <script lang="ts" setup>
 import type { TopicSection } from '@/models/topic/TopicSection';
 import { useTopicStore } from '@/stores/TopicStore';
