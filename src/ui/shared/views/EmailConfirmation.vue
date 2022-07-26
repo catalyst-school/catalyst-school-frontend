@@ -29,7 +29,7 @@ onMounted(async () => {
     }
 });
 </script>
-<style>
+<style scoped>
 .wrap {
     margin-top: 20vh;
 }

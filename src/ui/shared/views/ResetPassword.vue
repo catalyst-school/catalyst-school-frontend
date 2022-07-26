@@ -43,7 +43,7 @@ const reset = async (resetData: ResetPassword): Promise<void> => {
     }
 };
 </script>
-<style>
+<style scoped>
 .wrap {
     margin-top: 20vh;
 }
