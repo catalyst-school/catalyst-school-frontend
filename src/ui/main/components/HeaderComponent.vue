@@ -1,0 +1,65 @@
+<script setup lang="ts">
+import { RouteNames } from '@/ui/router';
+import { NMenu, NButton, type MenuOption } from 'naive-ui';
+import { h, ref, watch } from 'vue';
+import { RouterLink, useRoute } from 'vue-router';
+
+const route = useRoute();
+const activeKey = ref<string | null>(null);
+
+const menuOptions: MenuOption[] = [
+    {
+        label: () => h(RouterLink, { to: { name: RouteNames.Main } }, { default: () => 'цели' }),
+        key: RouteNames.Goals,
+    },
+    {
+        label: () =>
+            h(RouterLink, { to: { name: RouteNames.Main } }, { default: () => 'тренажеры' }),
+        key: RouteNames.Main,
+    },
+    {
+        label: () =>
+            h(RouterLink, { to: { name: RouteNames.Main } }, { default: () => 'статистика' }),
+        key: RouteNames.Main,
+    },
+    {
+        label: () =>
+            h(RouterLink, { to: { name: RouteNames.Main } }, { default: () => 'достижения' }),
+        key: RouteNames.Main,
+    },
+];
+
+watch(
+    () => route.name,
+    (name) => {
+        activeKey.value = name as string;
+    },
+);
+</script>
+
+<template>
+    <div class="header">
+        <div class="header__logo">
+            <img src="../../../images/Logo.svg" alt="logo" />
+        </div>
+        <NMenu
+            v-model:value="activeKey"
+            class="header__menu"
+            mode="horizontal"
+            :options="menuOptions"
+        />
+        <n-button class="header__start" strong round type="warning"> Начать </n-button>
+    </div>
+</template>
+
+<style scoped lang="scss">
+.header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    &__logo {
+        width: 350px;
+    }
+}
+</style>
