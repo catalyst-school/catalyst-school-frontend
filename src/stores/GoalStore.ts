@@ -2,7 +2,6 @@ import type { CreateGoalDto } from '@/models/goal/dto/CreateGoalDto';
 import type { UpdateGoalDto } from '@/models/goal/dto/UpdateGoalDto';
 import type { Goal } from '@/models/goal/Goal';
 import type { Topic } from '@/models/topic/Topic';
-import { resultLight } from 'naive-ui/lib/result/styles';
 import { defineStore } from 'pinia';
 import { useServiceStore } from './ServiceStore';
 import { Stores } from './StoresEnum';

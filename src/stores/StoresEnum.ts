@@ -5,4 +5,5 @@ export enum Stores {
     Goal = 'goal',
     Theory = 'theory',
     Auth = 'auth',
+    UserGoal = 'user-goal',
 }
