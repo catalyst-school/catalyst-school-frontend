@@ -10,7 +10,7 @@ export async function request(method: string, url: string, data?: any) {
     });
 }
 
-export default function getAuthHeader(): any {
+export default function getAuthHeader(): Record<string, string> {
     const token = localStorage.getItem(UserConfig.token);
     return { Authorization: `Bearer ${token}` };
 }
