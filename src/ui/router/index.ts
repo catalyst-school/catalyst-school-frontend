@@ -1,6 +1,7 @@
 import { createRouter, createWebHistory } from 'vue-router';
 export enum RouteNames {
     Main = 'main',
+    Home = 'home',
     Admin = 'admin',
     AdminTopicList = 'admin-topic-list',
     AdminTopicBuilder = 'admin-topic-builder',
@@ -20,6 +21,13 @@ const router = createRouter({
             path: '/',
             name: RouteNames.Main,
             component: () => import('../main/views/MainView.vue'),
+            children: [
+                {
+                    path: '',
+                    name: RouteNames.Home,
+                    component: () => import('../main/views/HomeView.vue'),
+                },
+            ],
         },
         {
             path: '/admin',
