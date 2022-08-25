@@ -9,22 +9,22 @@ const activeKey = ref<string | null>(null);
 
 const menuOptions: MenuOption[] = [
     {
-        label: () => h(RouterLink, { to: { name: RouteNames.Main } }, { default: () => 'цели' }),
+        label: () => h(RouterLink, { to: { name: RouteNames.Main } }, { default: () => 'ЦЕЛИ' }),
         key: RouteNames.Goals,
     },
     {
         label: () =>
-            h(RouterLink, { to: { name: RouteNames.Main } }, { default: () => 'тренажеры' }),
+            h(RouterLink, { to: { name: RouteNames.Main } }, { default: () => 'ТРЕНАЖЕРЫ' }),
         key: RouteNames.Main,
     },
     {
         label: () =>
-            h(RouterLink, { to: { name: RouteNames.Main } }, { default: () => 'статистика' }),
+            h(RouterLink, { to: { name: RouteNames.Main } }, { default: () => 'СТАТИСТИКА' }),
         key: RouteNames.Main,
     },
     {
         label: () =>
-            h(RouterLink, { to: { name: RouteNames.Main } }, { default: () => 'достижения' }),
+            h(RouterLink, { to: { name: RouteNames.Main } }, { default: () => 'ДОСТИЖЕНИЯ' }),
         key: RouteNames.Main,
     },
 ];
@@ -48,7 +48,7 @@ watch(
             mode="horizontal"
             :options="menuOptions"
         />
-        <n-button class="header__start" strong round type="warning"> Начать </n-button>
+        <n-button class="header__start" strong round type="warning">Начать</n-button>
     </div>
 </template>
 
@@ -57,6 +57,9 @@ watch(
     display: flex;
     align-items: center;
     justify-content: space-between;
+
+    padding: 0 140px;
+    font-size: 20px;
 
     &__logo {
         width: 350px;
