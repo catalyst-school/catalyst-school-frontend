@@ -26,5 +26,17 @@ export const useTopicSessionStore = defineStore(Stores.TopicSession, {
                 console.error(e);
             }
         },
+
+        async getById(id: string, skipUpdate?: boolean) {
+            const services = useServiceStore();
+            try {
+                const res = await services.topicSessionService.getById(id);
+                if (!skipUpdate) {
+                    this.topicSession = res;
+                }
+            } catch (e) {
+                console.error(e);
+            }
+        },
     },
 });

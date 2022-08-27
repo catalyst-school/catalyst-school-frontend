@@ -8,4 +8,9 @@ export class TopicSessionService {
         const res = await request('POST', `${API_URL}/topic-sessions`, createTopicSessionDto);
         return res.data;
     }
+
+    async getById(id: string): Promise<TopicSession> {
+        const res = await request('GET', `${API_URL}/topic-sessions/${id}`);
+        return res.data;
+    }
 }
