@@ -13,6 +13,7 @@ export enum RouteNames {
     EmailConfirmation = 'email-confirmation',
     ResetPassword = 'reset-password',
     TopicSession = 'topic-session',
+    Goals = 'goals',
 }
 
 const router = createRouter({
@@ -71,6 +72,11 @@ const router = createRouter({
                     component: () => import('../admin/views/UpdateTheory.vue'),
                 },
             ],
+        },
+        {
+            path: '/goals',
+            name: RouteNames.Goals,
+            component: () => import('../main/views/GoalsView.vue'),
         },
         {
             path: '/email-confirmation',
