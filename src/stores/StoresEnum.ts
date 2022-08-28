@@ -6,4 +6,5 @@ export enum Stores {
     Theory = 'theory',
     Auth = 'auth',
     UserGoal = 'user-goal',
+    TopicSession = 'topic-session',
 }

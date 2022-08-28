@@ -12,6 +12,7 @@ export enum RouteNames {
     Login = 'login',
     EmailConfirmation = 'email-confirmation',
     ResetPassword = 'reset-password',
+    TopicSession = 'topic-session',
 }
 
 const router = createRouter({
@@ -26,6 +27,11 @@ const router = createRouter({
                     path: '',
                     name: RouteNames.Home,
                     component: () => import('../main/views/HomeView.vue'),
+                },
+                {
+                    path: 'topic-session/:id',
+                    name: RouteNames.TopicSession,
+                    component: () => import('../main/views/TopicSession.vue'),
                 },
             ],
         },
