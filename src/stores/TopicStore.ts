@@ -205,10 +205,14 @@ export const useTopicStore = defineStore(Stores.Topic, {
             }
         },
 
-        async getById(id: string) {
+        async getById(id: string, skipUpdate?: boolean) {
             const services = useServiceStore();
             try {
-                this.topic = await services.topicService.getById(id);
+                const res = await services.topicService.getById(id);
+                if (!skipUpdate) {
+                    this.topic = res;
+                }
+                return res;
             } catch (e) {
                 console.error(e);
             }

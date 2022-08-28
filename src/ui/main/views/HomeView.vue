@@ -21,6 +21,10 @@ const startTopicSession = async (topic: string, userGoal: string) => {
     router.push({ name: RouteNames.TopicSession, params: { id: topicSession?._id } });
 };
 
+const continueTopicSession = (topicSessionId: string) => {
+    router.push({ name: RouteNames.TopicSession, params: { id: topicSessionId } });
+};
+
 let mainUserGoal = computed(() => userGoals.value[0]);
 </script>
 
@@ -34,7 +38,10 @@ let mainUserGoal = computed(() => userGoals.value[0]);
         >
             Начать обучение
         </NButton>
-        <NButton v-if="topic._id === mainUserGoal.currentSession?.topic">
+        <NButton
+            v-if="topic._id === mainUserGoal.currentSession?.topic"
+            @click="continueTopicSession(mainUserGoal.currentSession._id)"
+        >
             Продолжить обучение
         </NButton>
     </p>
