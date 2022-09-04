@@ -13,9 +13,9 @@ const emit = defineEmits<{
 </script>
 <template>
     <div class="goal" @click="emit('select', props.goal._id)">
-        <img v-if="props.goal.img" :src="props.goal.img" />
+        <img v-if="props.goal.img" class="goal__img" :src="props.goal.img" />
         <!--заглушка-->
-        <img v-if="!props.goal.img" src="../../../images/cat-glass.svg" />
+        <img v-if="!props.goal.img" class="goal__img" src="../../../images/cat-glass.svg" />
         <div class="goal__title">
             {{ props.goal.title }}
         </div>
@@ -23,11 +23,15 @@ const emit = defineEmits<{
 </template>
 <style lang="scss" scoped>
 .goal {
-    width: 393px;
-    height: 525px;
+    max-width: 393px;
+    height: auto;
 
     &__title {
         text-align: center;
+    }
+
+    &__img {
+        width: 100%;
     }
 }
 </style>

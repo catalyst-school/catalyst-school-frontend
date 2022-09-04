@@ -30,6 +30,11 @@ const router = createRouter({
                     component: () => import('../main/views/HomeView.vue'),
                 },
                 {
+                    path: '/goals',
+                    name: RouteNames.Goals,
+                    component: () => import('../main/views/GoalsView.vue'),
+                },
+                {
                     path: 'topic-session/:id',
                     name: RouteNames.TopicSession,
                     component: () => import('../main/views/TopicSession.vue'),
@@ -72,11 +77,6 @@ const router = createRouter({
                     component: () => import('../admin/views/UpdateTheory.vue'),
                 },
             ],
-        },
-        {
-            path: '/goals',
-            name: RouteNames.Goals,
-            component: () => import('../main/views/GoalsView.vue'),
         },
         {
             path: '/email-confirmation',

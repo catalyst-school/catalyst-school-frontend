@@ -25,10 +25,14 @@ const selectGoal = async (id: Goal['_id']) => {
 </script>
 
 <template>
-    <HeaderComponentVue />
     <div class="title">ЧЕМУ ТЫ ХОЧЕШЬ НАУЧИТЬСЯ?</div>
-    <div v-for="goal of goals" :key="goal._id" class="goals-wrap">
-        <GoalComponent :goal="goal" @select="selectGoal($event)" />
+    <div class="goals-wrap">
+        <GoalComponent
+            v-for="goal of goals"
+            :key="goal._id"
+            :goal="goal"
+            @select="selectGoal($event)"
+        />
     </div>
 </template>
 
@@ -37,8 +41,14 @@ const selectGoal = async (id: Goal['_id']) => {
     font-size: 70px;
     font-weight: bold;
     color: #ffae12;
-    width: 1200px;
+    width: 75vw;
     margin: 0 auto;
     margin-top: 100px;
+}
+
+.goals-wrap {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
 }
 </style>

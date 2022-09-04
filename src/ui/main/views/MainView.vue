@@ -1,9 +1,9 @@
 <script setup lang="ts">
-import MainMenu from '../components/MainMenu.vue';
+import HeaderComponent from '../components/HeaderComponent.vue';
 </script>
 
 <template>
-    <MainMenu />
+    <HeaderComponent />
     <main>
         <RouterView />
     </main>
