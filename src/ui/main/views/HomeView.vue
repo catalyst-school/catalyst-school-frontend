@@ -12,8 +12,14 @@ const topicSessionStore = useTopicSessionStore();
 const { userGoals } = storeToRefs(userGoalStore);
 const router = useRouter();
 
+let mainUserGoal = computed(() => userGoals.value[0]);
+
 onMounted(async () => {
     await userGoalStore.getAll();
+
+    if (!mainUserGoal.value) {
+        router.push({ name: RouteNames.Goals });
+    }
 });
 
 const startTopicSession = async (topic: string, userGoal: string) => {
@@ -24,27 +30,27 @@ const startTopicSession = async (topic: string, userGoal: string) => {
 const continueTopicSession = (topicSessionId: string) => {
     router.push({ name: RouteNames.TopicSession, params: { id: topicSessionId } });
 };
-
-let mainUserGoal = computed(() => userGoals.value[0]);
 </script>
 
 <template>
-    <h2>{{ mainUserGoal?.goal?.title }}</h2>
-    <p v-for="(topic, index) of mainUserGoal?.goal?.topics" :key="topic._id">
-        {{ topic.title }}
-        <NButton
-            v-if="!mainUserGoal.currentSession && index === 0"
-            @click="startTopicSession(topic._id, mainUserGoal._id)"
-        >
-            Начать обучение
-        </NButton>
-        <NButton
-            v-if="topic._id === mainUserGoal.currentSession?.topic"
-            @click="continueTopicSession(mainUserGoal.currentSession._id)"
-        >
-            Продолжить обучение
-        </NButton>
-    </p>
+    <div v-if="mainUserGoal">
+        <h2>{{ mainUserGoal?.goal?.title }}</h2>
+        <p v-for="(topic, index) of mainUserGoal?.goal?.topics" :key="topic._id">
+            {{ topic.title }}
+            <NButton
+                v-if="!mainUserGoal.currentSession && index === 0"
+                @click="startTopicSession(topic._id, mainUserGoal._id)"
+            >
+                Начать обучение
+            </NButton>
+            <NButton
+                v-if="topic._id === mainUserGoal.currentSession?.topic"
+                @click="continueTopicSession(mainUserGoal.currentSession._id)"
+            >
+                Продолжить обучение
+            </NButton>
+        </p>
+    </div>
 </template>
 <style scoped lang="scss">
 @import '@/assets/variables.scss';
