@@ -6,6 +6,7 @@ import type { Topic } from '@/models/topic/Topic';
 import type { Theory } from '@/models/theory/Theory';
 import type { Task } from '@/models/task/Task';
 import { TopicSectionType, type TopicSection } from '@/models/topic/TopicSection';
+import type { CheckUnitDto } from '@/models/topic-session/CheckUnitDto';
 
 interface Props {
     topic: Topic;
@@ -14,6 +15,7 @@ interface Props {
 
 const emit = defineEmits<{
     (e: 'completed'): void;
+    (e: 'next', event: CheckUnitDto): void;
 }>();
 const props = defineProps<Props>();
 let currentSectionIndex = ref(0);
@@ -33,6 +35,13 @@ const isTheory = computed(() => {
 });
 
 const goToNextStep = () => {
+    // todo fix with better typing
+    emit('next', {
+        sectionType: getCurrentSection().type,
+        unitId: ((currentStep?.value as Theory)?._id ||
+            (currentStep?.value as Task)?.properties?.sheetId) as any,
+    });
+
     if (isLastStepInSection()) {
         if (isLastSection()) {
             emit('completed');
