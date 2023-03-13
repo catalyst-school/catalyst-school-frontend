@@ -1,7 +1,7 @@
-import type { TopicSection } from './TopicSection';
+import type { Unit } from '@/models/topic/Unit';
 
 export interface Topic {
     _id: string;
     title: string;
-    sections: TopicSection[];
+    units: Unit[];
 }

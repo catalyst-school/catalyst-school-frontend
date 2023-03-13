@@ -2,7 +2,6 @@
 import type { Theory } from '@/models/theory/Theory';
 import { Trash, Edit } from '@vicons/tabler';
 import { NButton, NThing, NSpace } from 'naive-ui';
-import { defineProps } from 'vue';
 
 interface Props {
     theory: Theory;

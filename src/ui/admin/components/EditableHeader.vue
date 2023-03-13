@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { defineProps, ref, onMounted, defineEmits } from 'vue';
+import { ref, onMounted, defineEmits } from 'vue';
 import { NButton, NInput } from 'naive-ui';
 import { Pencil } from '@vicons/tabler';
 

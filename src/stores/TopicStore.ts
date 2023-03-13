@@ -1,13 +1,10 @@
-import type { Theory } from '@/models/theory/Theory';
-import type { CreateTopicDto } from '@/models/topic/dto/CreateTopicDto';
+import type { CreateTopicDto, CreateUnitDto } from '@/models/topic/dto/CreateTopicDto';
 import type { UpdateTopicDto } from '@/models/topic/dto/UpdateTopicDto';
-import type { UpdateTopicSectionDto } from '@/models/topic/dto/UpdateTopicSectionDto';
 import type { Topic } from '@/models/topic/Topic';
-import type { TopicSection, TopicSectionType } from '@/models/topic/TopicSection';
 import { defineStore } from 'pinia';
 import { useServiceStore } from './ServiceStore';
 import { Stores } from './StoresEnum';
-import { useTaskStore } from './TaskStore';
+import type { Unit } from '@/models/topic/Unit';
 
 interface TopicRootState {
     topics: Topic[];
@@ -31,143 +28,35 @@ export const useTopicStore = defineStore(Stores.Topic, {
             }
         },
 
-        async addSection(id: string, sectionType: TopicSectionType) {
-            const services = useServiceStore();
-            if (this.topic?._id === id) {
-                try {
-                    const sections = [
-                        ...this.topic.sections,
-                        {
-                            type: sectionType,
-                            theories: [],
-                            tasks: [],
-                        },
-                    ];
-                    const updatedTopic = await services.topicService.update(id, {
-                        sections,
-                    } as UpdateTopicDto);
-                    this.topic.sections = updatedTopic.sections;
-                    return updatedTopic;
-                } catch (e) {
-                    console.error(e);
-                }
-            } else {
-                // todo propbably request from backend
-            }
-        },
-
-        async addTheory(sectionId: string, theory: Theory): Promise<Topic | undefined> {
+        async addUnit(unit: CreateUnitDto): Promise<Topic | undefined> {
             const services = useServiceStore();
 
             if (!this.topic) {
                 return;
             }
 
-            const sections = this.topic.sections.map((s) => {
-                if (s._id === sectionId) {
-                    s.theories?.push(theory);
-                }
-                return s;
-            });
+            this.topic.units?.push(unit as Unit);
 
             try {
-                const updatedTopic = await services.topicService.update(this.topic._id, {
-                    sections: transformSectionToDto(sections),
-                });
-                this.topic.sections = updatedTopic.sections;
-                return updatedTopic;
+                return await services.topicService.update(this.topic._id, this.topic);
             } catch (e) {
                 console.error(e);
             }
         },
 
-        async removeTheory(sectionId: string, theoryId: string) {
+        async removeUnit(unit: Unit): Promise<Topic | undefined> {
             const services = useServiceStore();
+
             if (!this.topic) {
                 return;
             }
-            const sections = this.topic.sections.map((s) => {
-                if (s._id === sectionId) {
-                    s?.theories?.forEach((theory, i) => {
-                        if (theory._id === theoryId) {
-                            s?.theories?.splice(i, 1);
-                        }
-                    });
-                }
-                return s;
-            });
+
+            this.topic.units = this.topic.units?.filter((u) => u._id !== unit._id);
+
             try {
-                const updatedTopic = await services.topicService.update(this.topic._id, {
-                    sections,
-                } as UpdateTopicDto);
-                this.topic.sections = updatedTopic.sections;
-                return updatedTopic;
+                return await services.topicService.update(this.topic._id, this.topic);
             } catch (e) {
                 console.error(e);
-            }
-        },
-
-        async addTask(sectionId: string, sheetId: number) {
-            const services = useServiceStore();
-            const taskStore = useTaskStore();
-            const task = taskStore.tasks.find((t) => t.properties.sheetId === sheetId);
-            if (!task || !this.topic) {
-                return;
-            }
-            const sections = this.topic.sections.map((s) => {
-                if (s._id === sectionId) {
-                    s.tasks?.push(task);
-                }
-                return s;
-            });
-            try {
-                const updatedTopic = await services.topicService.update(this.topic._id, {
-                    sections,
-                } as UpdateTopicDto);
-                this.topic.sections = updatedTopic.sections;
-                return updatedTopic;
-            } catch (e) {
-                console.error(e);
-            }
-        },
-
-        async removeTask(sectionId: string, index: number) {
-            const services = useServiceStore();
-            if (!this.topic) {
-                return;
-            }
-            const sections = this.topic.sections.map((s) => {
-                if (s._id === sectionId) {
-                    s?.tasks?.splice(index, 1);
-                }
-                return s;
-            });
-            try {
-                const updatedTopic = await services.topicService.update(this.topic._id, {
-                    sections,
-                } as UpdateTopicDto);
-                this.topic.sections = updatedTopic.sections;
-                return updatedTopic;
-            } catch (e) {
-                console.error(e);
-            }
-        },
-
-        async removeSection(id: string, sectionId: string) {
-            const services = useServiceStore();
-            if (this.topic?._id === id) {
-                try {
-                    const sections = this.topic.sections.filter((s) => s._id !== sectionId);
-                    const updatedTopic = await services.topicService.update(id, {
-                        sections,
-                    } as UpdateTopicDto);
-                    this.topic.sections = updatedTopic.sections;
-                    return updatedTopic;
-                } catch (e) {
-                    console.error(e);
-                }
-            } else {
-                // todo propbably request from backend
             }
         },
 
@@ -229,10 +118,3 @@ export const useTopicStore = defineStore(Stores.Topic, {
         },
     },
 });
-
-function transformSectionToDto(sections: TopicSection[]): UpdateTopicSectionDto[] {
-    return sections.map((s) => {
-        const theories = s.theories?.map((t) => t._id);
-        return { type: s.type, theories, tasks: s.tasks };
-    });
-}

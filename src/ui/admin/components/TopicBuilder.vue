@@ -1,16 +1,16 @@
 <script setup lang="ts">
-import { TopicSectionType } from '@/models/topic/TopicSection';
 import { useTopicStore } from '@/stores/TopicStore';
 import { RouteNames } from '@/ui/router';
-import { Book, ChartArcs, TestPipe } from '@vicons/tabler';
-import { NButton, NIcon, NPageHeader, NSpace } from 'naive-ui';
+import { NPageHeader, NSpace } from 'naive-ui';
 import { storeToRefs } from 'pinia';
 import { onMounted } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import EditableHeader from './EditableHeader.vue';
-import TaskSection from './TaskSection.vue';
-import TheorySection from './TheorySection.vue';
 import type { Theory } from '@/models/theory/Theory';
+import UnitCard from '@/ui/admin/components/UnitCard.vue';
+import TheoryList from '@/ui/admin/components/TheoryList.vue';
+import type { Unit } from '@/models/topic/Unit';
+import { UnitType } from '@/models/topic/Unit';
 
 const topicStore = useTopicStore();
 const { topic } = storeToRefs(topicStore);
@@ -22,8 +22,8 @@ onMounted(() => {
     topicStore.getById(topicId);
 });
 
-const navigateToCreateForm = (sectionId: string): void => {
-    router.push({ name: RouteNames.CreateTheoryForm, query: { topicId, sectionId } });
+const navigateToCreateForm = (): void => {
+    router.push({ name: RouteNames.CreateTheoryForm, query: { topicId } });
 };
 
 const navigateToEditForm = (theoryId: string): void => {
@@ -34,12 +34,16 @@ const navigateToEditForm = (theoryId: string): void => {
     });
 };
 
-const selectTheory = (theory: Theory, sectionId: string) => {
-    topicStore.addTheory(sectionId, theory);
+const selectTheory = (theory: Theory) => {
+    topicStore.addUnit({ ref: theory._id, type: UnitType.Theory });
 };
 
-const addSection = (type: TopicSectionType): void => {
-    topicStore.addSection(topic.value?._id as string, type);
+const addNewTheory = () => {
+    navigateToCreateForm();
+};
+
+const removeUnit = (unit: Unit) => {
+    topicStore.removeUnit(unit);
 };
 
 const changeTitle = (title: string): void => {
@@ -58,46 +62,13 @@ const handleBack = (): void => {
         </template>
     </NPageHeader>
 
-    <template v-for="section of topic?.sections" :key="section.id">
-        <TaskSection
-            v-if="
-                section.type === TopicSectionType.Training || section.type === TopicSectionType.Test
-            "
-            :section="section"
-        />
-        <TheorySection
-            v-else
-            :section="section"
-            @add="navigateToCreateForm(section._id)"
-            @edit="navigateToEditForm($event)"
-            @select="selectTheory($event, section._id)"
-        />
-    </template>
     <NSpace>
-        <NButton size="large" secondary type="warning" @click="addSection(TopicSectionType.Theory)">
-            <template #icon>
-                <NIcon :component="Book" />
-            </template>
-            Добавить теорию
-        </NButton>
-        <NButton
-            size="large"
-            secondary
-            type="success"
-            @click="addSection(TopicSectionType.Training)"
-        >
-            <template #icon>
-                <NIcon :component="ChartArcs" />
-            </template>
-            Добавить тренажер
-        </NButton>
-        <NButton size="large" secondary type="error" @click="addSection(TopicSectionType.Test)">
-            <template #icon>
-                <NIcon :component="TestPipe" />
-            </template>
-            Добавить контрольную
-        </NButton>
+        <TheoryList @add="addNewTheory" @select="selectTheory"></TheoryList>
     </NSpace>
+
+    <template v-for="unit of topic?.units" :key="unit._id">
+        <UnitCard :unit="unit" @remove="removeUnit" />
+    </template>
 </template>
 
 <style scoped lang="scss">

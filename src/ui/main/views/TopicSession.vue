@@ -7,7 +7,7 @@ import { storeToRefs } from 'pinia';
 import { onMounted, ref } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import TopicSessionRenderer from '../components/TopicSessionRenderer.vue';
-import type { CheckUnitDto } from '@/models/topic-session/CheckUnitDto';
+import type { UpdateProgressDto } from '@/models/topic-session/dto/UpdateProgress.dto';
 
 const topicSessionStore = useTopicSessionStore();
 const topicStore = useTopicStore();
@@ -24,7 +24,7 @@ onMounted(async () => {
     }
 });
 
-const nextUnit = async (event: CheckUnitDto) => {
+const nextUnit = async (event: UpdateProgressDto) => {
     // todo next step applied only after this call
     await topicSessionStore.checkUnit(topicSession.value?._id as string, event);
 };
