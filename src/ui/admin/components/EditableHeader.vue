@@ -33,8 +33,7 @@ const update = () => {
         </div>
     </template>
     <template v-else>
-        {{ props.title }}
-
+        <span class="title">{{ props.title }}</span>
         <NButton quaternary circle size="small" @click="editMode = true">
             <template #icon><Pencil /></template>
         </NButton>
@@ -48,5 +47,9 @@ const update = () => {
 }
 .input {
     margin-right: $base;
+}
+
+.title {
+    white-space: nowrap;
 }
 </style>
