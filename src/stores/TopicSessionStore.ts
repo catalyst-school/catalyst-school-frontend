@@ -3,7 +3,7 @@ import type { TopicSession } from '@/models/topic-session/TopicSession';
 import { defineStore } from 'pinia';
 import { useServiceStore } from './ServiceStore';
 import { Stores } from './StoresEnum';
-import type { CheckUnitDto } from '@/models/topic-session/CheckUnitDto';
+import type { UpdateProgressDto } from '@/models/topic-session/dto/UpdateProgress.dto';
 
 interface TopicSessionRootState {
     topicSession: TopicSession | undefined;
@@ -39,10 +39,13 @@ export const useTopicSessionStore = defineStore(Stores.TopicSession, {
             }
         },
 
-        async checkUnit(id: string, checkUnitDto: CheckUnitDto, skipUpdate?: boolean) {
+        async checkUnit(id: string, updateProgressDto: UpdateProgressDto, skipUpdate?: boolean) {
             const services = useServiceStore();
             try {
-                const res = await services.topicSessionService.checkUnit(id, checkUnitDto);
+                const res = await services.topicSessionService.updateProgress(
+                    id,
+                    updateProgressDto,
+                );
                 if (!skipUpdate) {
                     this.topicSession = res;
                 }
