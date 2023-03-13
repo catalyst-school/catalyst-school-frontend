@@ -1,4 +1,5 @@
 export enum Stores {
+    User = 'user',
     Service = 'service',
     Topic = 'topic',
     Task = 'task',

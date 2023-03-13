@@ -37,6 +37,24 @@ export const useGoalStore = defineStore(Stores.Goal, {
             }
         },
 
+        async updateImg(fileUrl: string) {
+            if (this.goal) {
+                const services = useServiceStore();
+                try {
+                    const updated = await services.goalService.update(this.goal._id, {
+                        img: fileUrl,
+                    });
+
+                    this.goal.img = fileUrl;
+                    return updated;
+                } catch (e) {
+                    console.error(e);
+                }
+            } else {
+                console.warn('No Goal id is provided');
+            }
+        },
+
         async create(goal: CreateGoalDto) {
             const services = useServiceStore();
             try {

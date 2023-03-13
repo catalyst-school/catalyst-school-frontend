@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import type { Goal } from '@/models/goal/Goal';
-import HeaderComponentVue from '../components/HeaderComponent.vue';
 import GoalComponent from '../components/GoalComponent.vue';
 import { onMounted } from 'vue';
 import { storeToRefs } from 'pinia';

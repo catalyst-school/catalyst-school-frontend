@@ -36,9 +36,7 @@ const update = () => {
         {{ props.title }}
 
         <NButton quaternary circle size="small" @click="editMode = true">
-            <template #icon>
-                <Pencil />
-            </template>
+            <template #icon><Pencil /></template>
         </NButton>
     </template>
 </template>
