@@ -1,5 +1,6 @@
 <script lang="ts" setup>
-import { NUpload, UploadFileInfo } from 'naive-ui/lib/upload';
+import { NUpload } from 'naive-ui/lib/upload';
+import type { UploadFileInfo } from 'naive-ui/lib/upload';
 import { NButton } from 'naive-ui';
 import { AttachFileFilled } from '@vicons/material';
 import { defineEmits } from 'vue';
