@@ -4,6 +4,7 @@ import type { UploadFileInfo } from 'naive-ui/lib/upload';
 import { NButton } from 'naive-ui';
 import { AttachFileFilled } from '@vicons/material';
 import { defineEmits } from 'vue';
+import getAuthHeader from '@/utils/request';
 
 const emit = defineEmits<{
     (e: 'update', value: string): void;
@@ -26,6 +27,7 @@ const data = (options: { file: UploadFileInfo }): { id: string } => {
     <NUpload
         class="wrap"
         :accept="acceptFileType"
+        :headers="getAuthHeader()"
         :action="API_URL_UPLOAD"
         :max="fileLimit"
         :data="data"
