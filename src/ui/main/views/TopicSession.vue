@@ -7,6 +7,7 @@ import { storeToRefs } from 'pinia';
 import { onMounted, ref } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import TopicSessionRenderer from '../components/TopicSessionRenderer.vue';
+import type { UpdateProgressDto } from '@/models/topic-session/dto/UpdateProgress.dto';
 
 const topicSessionStore = useTopicSessionStore();
 const topicStore = useTopicStore();
@@ -23,6 +24,11 @@ onMounted(async () => {
     }
 });
 
+const nextUnit = async (event: UpdateProgressDto) => {
+    // todo next step applied only after this call
+    await topicSessionStore.checkUnit(topicSession.value?._id as string, event);
+};
+
 const completeTopic = () => {
     router.push({ name: RouteNames.Home });
 };
@@ -34,6 +40,7 @@ const completeTopic = () => {
         :topic="topic"
         :topic-session="topicSession"
         @completed="completeTopic"
+        @next="nextUnit($event)"
     />
 </template>
 <style scoped lang="scss">

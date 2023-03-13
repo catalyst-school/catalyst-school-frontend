@@ -1,6 +1,5 @@
 <script lang="ts" setup>
 import type { Goal } from '@/models/goal/Goal';
-import { defineProps, defineEmits } from 'vue';
 
 interface Props {
     goal: Goal;

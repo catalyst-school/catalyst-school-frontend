@@ -1,14 +1,9 @@
-export enum TopicSessionStatus {
-    New = 'new',
-    Pending = 'pending',
-    Completed = 'completed',
-}
+import type { TopicSessionProgress } from '@/models/topic-session/TopicSessionProgress';
 
 export interface TopicSession {
     _id: string;
     topic: string;
     user: string;
-    status: TopicSessionStatus;
-    tasks: string[];
+    progress: TopicSessionProgress;
     userGoal: string;
 }

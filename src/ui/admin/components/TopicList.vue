@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import type { Topic } from '@/models/topic/Topic';
-import { TopicSectionType } from '@/models/topic/TopicSection';
 import { useTopicStore } from '@/stores/TopicStore';
 import { RouteNames } from '@/ui/router';
 import { Plus, Trash, Books } from '@vicons/tabler';
@@ -8,6 +7,7 @@ import { NButton, NList, NListItem, NSpace, NThing, NAvatar, NIcon } from 'naive
 import { storeToRefs } from 'pinia';
 import { onMounted, computed } from 'vue';
 import { useRouter } from 'vue-router';
+import { UnitType } from '@/models/topic/Unit';
 
 const topicStore = useTopicStore();
 const { topics } = storeToRefs(topicStore);
@@ -26,7 +26,7 @@ const removeTopic = (id: string) => {
 };
 
 const createTopic = async () => {
-    const newTopic = await topicStore.create({ title: 'Без названия', sections: [] });
+    const newTopic = await topicStore.create({ title: 'Без названия', units: [] });
     if (newTopic) {
         editTopic(newTopic._id);
     }
@@ -34,14 +34,12 @@ const createTopic = async () => {
 
 const description = computed(() => {
     return (topic: Topic) => {
-        let result = `Разделов: ${topic.sections.length}. `;
-        const theories = topic.sections.filter((s) => s.type === TopicSectionType.Theory).length;
-        const trainings = topic.sections.filter((s) => s.type === TopicSectionType.Training).length;
-        const tests = topic.sections.filter((s) => s.type === TopicSectionType.Test).length;
+        let result = `Юнитов: ${topic?.units?.length}. `;
+        const theories = topic?.units?.filter((u) => u.type === UnitType.Theory)?.length;
+        const trainings = topic?.units?.filter((s) => s.type === UnitType.Task)?.length;
 
         result += theories ? `Теорий - ${theories}. ` : '';
         result += trainings ? `Тренажёров - ${trainings}. ` : '';
-        result += tests ? `Контрольных - ${tests}. ` : '';
 
         return result;
     };
