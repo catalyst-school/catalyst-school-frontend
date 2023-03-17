@@ -6,10 +6,11 @@ import { storeToRefs } from 'pinia';
 import { DotsVertical } from '@vicons/tabler';
 import { onMounted, computed } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
-import EditableHeader from './EditableHeader.vue';
-import * as draggable from 'vuedraggable';
 import { useTopicStore } from '@/stores/TopicStore';
 import type { Topic } from '@/models/topic/Topic';
+import EditableHeader from './EditableHeader.vue';
+import ImageFile from '../components/ImageFile.vue';
+import * as draggable from 'vuedraggable';
 
 const goalStore = useGoalStore();
 const topicStore = useTopicStore();
@@ -44,15 +45,22 @@ const removeTopic = (topic: Topic) => {
     goalStore.removeTopic(topic);
 };
 
+const changeImg = (fileUrl: string): void => {
+    goalStore.updateImg(fileUrl);
+};
+
 const notUsedTopics = computed(() => {
     return topics.value.filter((t) => !goal.value?.topics?.some((gt) => gt._id === t._id));
 });
 </script>
 
 <template>
-    <NPageHeader class="title" @back="handleBack">
+    <NPageHeader class="title-wrap" @back="handleBack">
         <template #title>
-            <EditableHeader v-if="goal" :title="goal.title" @update="changeTitle" />
+            <div class="title">
+                <EditableHeader v-if="goal" :title="goal.title" @update="changeTitle" />
+                <ImageFile v-if="goal" @update="changeImg"></ImageFile>
+            </div>
         </template>
     </NPageHeader>
 
@@ -99,8 +107,13 @@ const notUsedTopics = computed(() => {
 <style scoped lang="scss">
 @import '@/assets/variables.scss';
 
-.title {
+.title-wrap {
     margin-bottom: $base * 2;
+}
+
+.title {
+    display: flex;
+    align-items: center;
 }
 
 .list-item {
