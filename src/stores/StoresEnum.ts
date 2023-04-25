@@ -8,4 +8,5 @@ export enum Stores {
     Auth = 'auth',
     UserGoal = 'user-goal',
     TopicSession = 'topic-session',
+    Achievement = 'Achievement',
 }

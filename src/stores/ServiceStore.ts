@@ -6,6 +6,7 @@ import { TopicService } from '@/services/TopicService';
 import { TopicSessionService } from '@/services/TopicSessionService';
 import { UserGoalService } from '@/services/UserGoalService';
 import { UserService } from '@/services/UserService';
+import { AchievementService } from '@/services/AchievementService';
 import { defineStore } from 'pinia';
 import { Stores } from './StoresEnum';
 
@@ -19,5 +20,6 @@ export const useServiceStore = defineStore(Stores.Service, {
         userService: new UserService(),
         userGoalService: new UserGoalService(),
         topicSessionService: new TopicSessionService(),
+        achievementService: new AchievementService(),
     }),
 });

@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { RouteNames } from '@/ui/router';
-import { Home, Books, Target } from '@vicons/tabler';
+import { Home, Books, Target, Barbell } from '@vicons/tabler';
 import { NIcon, type MenuOption, NMenu } from 'naive-ui';
 import { type Component, h, ref, watch } from 'vue';
 import { RouterLink, useRoute } from 'vue-router';
@@ -36,6 +36,16 @@ const menuOptions: MenuOption[] = [
             ),
         key: RouteNames.AdminTopicList,
         icon: renderIcon(Books),
+    },
+    {
+        label: () =>
+            h(
+                RouterLink,
+                { to: { name: RouteNames.AchievementList } },
+                { default: () => 'Конструктор достижений' },
+            ),
+        key: RouteNames.AchievementList,
+        icon: renderIcon(Barbell),
     },
 ];
 

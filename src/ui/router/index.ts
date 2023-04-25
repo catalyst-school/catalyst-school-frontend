@@ -15,6 +15,8 @@ export enum RouteNames {
     ResetPassword = 'reset-password',
     TopicSession = 'topic-session',
     Goals = 'goals',
+    AchievementList = 'achievement-list',
+    AchievementBuilder = 'achievement-builder',
 }
 
 const router = createRouter({
@@ -76,6 +78,16 @@ const router = createRouter({
                     path: 'theory/:id',
                     name: RouteNames.UpdateTheoryForm,
                     component: () => import('../admin/views/UpdateTheory.vue'),
+                },
+                {
+                    path: 'achievement-list',
+                    name: RouteNames.AchievementList,
+                    component: () => import('../admin/views/AchievementList.vue'),
+                },
+                {
+                    path: 'achievement-list/:id',
+                    name: RouteNames.AchievementBuilder,
+                    component: () => import('../admin/views/AchievementBuilder.vue'),
                 },
             ],
         },
