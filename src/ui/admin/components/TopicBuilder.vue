@@ -11,11 +11,13 @@ import EditableHeader from './EditableHeader.vue';
 import TaskSection from './TaskSection.vue';
 import TheorySection from './TheorySection.vue';
 import type { Theory } from '@/models/theory/Theory';
+import { useGoalStore } from '@/stores/GoalStore';
 
 const topicStore = useTopicStore();
 const { topic } = storeToRefs(topicStore);
 const route = useRoute();
 const router = useRouter();
+const goalStore = useGoalStore();
 const topicId = route.params['id'] as string;
 
 onMounted(() => {
@@ -49,12 +51,17 @@ const changeTitle = (title: string): void => {
 const handleBack = (): void => {
     router.push({ name: RouteNames.AdminTopicList });
 };
+
+const changeImg = (fileUrl: string): void => {
+    goalStore.updateImg(fileUrl);
+};
 </script>
 
 <template>
     <NPageHeader class="title" @back="handleBack">
         <template #title>
             <EditableHeader v-if="topic" :title="topic.title" @update="changeTitle" />
+            <ImageFile v-if="topic" @update="changeImg"></ImageFile>
         </template>
     </NPageHeader>
 

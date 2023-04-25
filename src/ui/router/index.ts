@@ -1,3 +1,4 @@
+import { useUserStore } from '@/stores/UserStore';
 import { createRouter, createWebHistory } from 'vue-router';
 export enum RouteNames {
     Main = 'main',
@@ -107,5 +108,20 @@ const router = createRouter({
         },
     ],
 });
+// router.beforeEach(async(from) => {
+//    const userStore =  useUserStore();
+//
+//     if (userStore.currentUser || from.name === RouteNames.Login) {
+//         return true;
+//     }
+//
+//     try {
+//         const user = await userStore.getProfile();
+//
+//         return user ? true : { name: RouteNames.Login };
+//     } catch (error) {
+//         return false;
+//     }
+// });
 
 export default router;
